@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NARASI.AI — AI Marketing Strategist</title>
+
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js untuk Grafik Interaktif -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#07060D',
+            void: '#0D0A1A',
+            plum: '#130E24',
+            plumLight: '#1D1538',
+            coral: '#FF5E5B',
+            coralBright: '#FF6B57',
+            neon: '#00F5A0',
+            neonDim: '#10F5A0',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif'],
+            jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            'coral-glow': '0 0 28px -4px rgba(255, 94, 91, 0.42)',
+            'neon-glow': '0 0 28px -4px rgba(0, 245, 160, 0.35)',
+            'card-glow': '0 10px 40px -15px rgba(0, 0, 0, 0.85)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-obsidian: #07060D;
+      --bg-plum: #130E24;
+      --accent-coral: #FF5E5B;
+      --accent-neon: #00F5A0;
+    }
+
+    body {
+      background-color: #07060D;
+      color: #F4F3F8;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Editorial Grid Background */
+    .bg-cyber-grid {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-panel {
+      background: linear-gradient(145deg, rgba(29, 21, 56, 0.62) 0%, rgba(19, 14, 36, 0.85) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-panel:hover {
+      border-color: rgba(255, 94, 91, 0.32);
+    }
+
+    .glass-card-interactive {
+      background: linear-gradient(155deg, rgba(29, 21, 56, 0.55) 0%, rgba(13, 10, 26, 0.9) 100%);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .glass-card-interactive:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 245, 160, 0.35);
+      box-shadow: 0 12px 32px -12px rgba(0, 245, 160, 0.16);
+    }
+
+    /* Gradient Text */
+    .text-gradient-brand {
+      background: linear-gradient(135deg, #FFFFFF 15%, #FF6B57 58%, #00F5A0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-coral {
+      background: linear-gradient(90deg, #FF5E5B 0%, #FF8E72 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07060D;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #271D4B;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF5E5B;
+    }
+
+    /* Form Inputs */
+    .narasi-input {
+      background: rgba(7, 6, 13, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      color: #F8FAFC;
+      transition: all 0.2s ease;
+    }
+    .narasi-input:focus {
+      outline: none;
+      border-color: #00F5A0;
+      box-shadow: 0 0 0 3px rgba(0, 245, 160, 0.14);
+      background: rgba(13, 10, 26, 0.95);
+    }
+    .narasi-input::placeholder {
+      color: rgba(161, 161, 185, 0.45);
+    }
+
+    /* Animations */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-view {
+      animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes pulseOrb {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.42; }
+      50% { transform: scale(1.08) translate(12px, -10px); opacity: 0.62; }
+    }
+
+    .orb-animate {
+      animation: pulseOrb 9s ease-in-out infinite;
+    }
+
+    /* Typing indicator dots */
+    .typing-dot {
+      animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-obsidian text-slate-100 antialiased selection:bg-coral selection:text-white">
+
+  <!-- ==================== GLOBAL TOAST NOTIFICATION CONTAINER ==================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ==================== CONFIRMATION MODAL ==================== -->
+  <div id="confirm-modal" class="fixed inset-0 z-[90] hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+    <div class="glass-panel rounded-2xl max-w-md w-full p-6 border border-coral/40 shadow-2xl animate-view">
+      <div class="flex items-start gap-4">
+        <div class="w-11 h-11 rounded-xl bg-coral/15 border border-coral/30 flex items-center justify-center text-coral shrink-0">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 id="confirm-title" class="font-display font-bold text-lg text-white">Konfirmasi Tindakan</h3>
+          <p id="confirm-message" class="text-sm text-slate-300 mt-1.5 leading-relaxed">Apakah Anda yakin ingin menghapus data ini? Tindakan tidak dapat dibatalkan.</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-3 mt-6">
+        <button id="confirm-cancel-btn" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition">
+          Batal
+        </button>
+        <button id="confirm-ok-btn" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-coral hover:bg-coralBright shadow-coral-glow transition">
+          Ya, Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DETAIL PREVIEW MODAL (FOR HISTORY ITEMS) ==================== -->
+  <div id="detail-modal" class="fixed inset-0 z-[85] hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="glass-panel rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col border border-white/15 shadow-2xl animate-view">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <div>
+          <span id="detail-badge" class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-neon/15 text-neon border border-neon/30">KATEGORI</span>
+          <h3 id="detail-title" class="font-display font-bold text-lg text-white mt-1.5">Judul Hasil Tersimpan</h3>
+        </div>
+        <button onclick="App.closeDetailModal()" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition" aria-label="Tutup">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="detail-body" class="p-6 overflow-y-auto text-sm text-slate-200 space-y-4 leading-relaxed whitespace-pre-line font-sans">
+      </div>
+      <div class="flex items-center justify-between px-6 py-4 border-t border-white/10 bg-obsidian/50 rounded-b-2xl">
+        <span id="detail-date" class="font-mono text-xs text-slate-400">Disimpan pada -</span>
+        <div class="flex items-center gap-2.5">
+          <button id="detail-copy-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-neon/15 text-neon border border-neon/30 hover:bg-neon/25 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Salin Teks
+          </button>
+          <button onclick="App.closeDetailModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white/10 text-white hover:bg-white/15 transition">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 1: LANDING PAGE
+  ========================================================================== -->
+  <div id="view-landing" class="min-h-screen flex flex-col bg-cyber-grid relative overflow-hidden">
+    <!-- Ambient Glow Orbs -->
+    <div class="pointer-events-none fixed top-[-140px] left-[-100px] w-[460px] h-[460px] rounded-full bg-plumLight/60 blur-[130px] orb-animate"></div>
+    <div class="pointer-events-none fixed top-[22%] right-[-140px] w-[420px] h-[420px] rounded-full bg-coral/20 blur-[140px] orb-animate"></div>
+    <div class="pointer-events-none fixed bottom-[-140px] left-[28%] w-[440px] h-[440px] rounded-full bg-neon/12 blur-[140px]"></div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 border-b border-white/8 bg-obsidian/80 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
+        <!-- Custom SVG Brand Logo -->
+        <a href="#" onclick="App.showLanding(); return false;" class="flex items-center gap-3 group">
+          <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-plumLight to-obsidian border border-coral/40 flex items-center justify-center shadow-coral-glow group-hover:scale-105 transition">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 22V6L15.5 22V6" stroke="#FF5E5B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 6V17.5" stroke="#00F5A0" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="21" cy="21.5" r="2.1" fill="#00F5A0"/>
+              <path d="M11 6H23" stroke="white" stroke-opacity="0.25" stroke-width="1.2" stroke-dasharray="2 2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-display font-bold text-xl tracking-tight text-white">NARASI<span class="text-coral">.AI</span></span>
+              <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-neon/10 text-neon border border-neon/25">STRATEGIST</span>
+            </div>
+            <p class="text-[11px] text-slate-400 hidden sm:block">AI Marketing Intelligence Platform</p>
+          </div>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+          <a href="#keunggulan" class="hover:text-neon transition">Keunggulan</a>
+          <a href="#fitur-utama" class="hover:text-neon transition">7 Modul AI</a>
+          <a href="#cara-kerja" class="hover:text-neon transition">Cara Kerja</a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <button onclick="App.openLogin()" class="px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-coral hover:bg-coralBright text-white shadow-coral-glow transition flex items-center gap-2">
+            <span>Masuk Dashboard</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="flex-1">
+      <section class="relative pt-14 pb-20 sm:pt-20 sm:pb-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <!-- Hero Left Copy -->
+          <div class="lg:col-span-7 space-y-7 animate-view">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-plumLight/80 border border-neon/30 text-xs font-mono text-neon">
+              <span class="w-2 h-2 rounded-full bg-neon animate-ping"></span>
+              <span>PLATFORM ASISTEN PEMASARAN DIGITAL BERBASIS AI</span>
+            </div>
+
+            <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.12] tracking-tight text-white">
+              Marketing yang ngerti arah. <span class="text-gradient-brand">Bukan cuma algoritma.</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+              NARASI.AI membantu pemilik usaha, UMKM, dan kreator merancang strategi pemasaran terukur—mulai dari riset pasar mendalam, bedah kompetitor, pemetaan persona konsumen, hingga produksi konten promosi dan rencana kampanye siap eksekusi.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+              <button onclick="App.openLogin()" class="px-7 py-4 rounded-2xl font-display font-bold text-base bg-gradient-to-r from-coral to-coralBright text-white shadow-coral-glow hover:scale-[1.02] active:scale-[0.99] transition flex items-center justify-center gap-2.5">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <span>Mulai Sekarang</span>
+              </button>
+              <a href="#fitur-utama" class="px-7 py-4 rounded-2xl font-display font-semibold text-base bg-plumLight/70 hover:bg-plumLight text-white border border-white/15 hover:border-neon/40 transition flex items-center justify-center gap-2">
+                <span>Jelajahi Fitur</span>
+                <i data-lucide="compass" class="w-5 h-5 text-neon"></i>
+              </a>
+            </div>
+
+            <!-- Trust Metrics Bar -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-xl">
+              <div>
+                <p class="font-display font-bold text-2xl sm:text-3xl text-white">7<span class="text-neon">+</span></p>
+                <p class="text-xs text-slate-400 mt-0.5">Modul Strategis AI</p>
+              </div>
+              <div>
+                <p class="font-display font-bold text-2xl sm:text-3xl text-white">0<span class="text-coral">dtk</span></p>
+                <p class="text-xs text-slate-400 mt-0.5">Akses Tanpa Registrasi</p>
+              </div>
+              <div>
+                <p class="font-display font-bold text-2xl sm:text-3xl text-white">100<span class="text-neon">%</span></p>
+                <p class="text-xs text-slate-400 mt-0.5">Konteks Bisnis Lokal</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Right Interactive Preview Card -->
+          <div class="lg:col-span-5 animate-view">
+            <div class="glass-panel rounded-3xl p-6 border border-white/12 shadow-2xl relative">
+              <div class="flex items-center justify-between pb-4 border-b border-white/10">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-coral"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                  <span class="w-3 h-3 rounded-full bg-neon"></span>
+                </div>
+                <span class="font-mono text-[11px] text-slate-400">NARASI_ENGINE // v2.4</span>
+              </div>
+
+              <div class="mt-5 space-y-4">
+                <div class="p-4 rounded-2xl bg-obsidian/80 border border-coral/25">
+                  <div class="flex items-center justify-between text-xs font-mono text-coral mb-1.5">
+                    <span>DIAGNOSA STRATEGI</span>
+                    <span>PRIORITAS TINGGI</span>
+                  </div>
+                  <p class="text-sm font-medium text-white">"Fokus pada diferensiasi cerita produk & retensi pelanggan lokal sebelum memperbesar budget iklan berbayar."</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3.5 rounded-2xl bg-plumLight/60 border border-white/8">
+                    <span class="font-mono text-[10px] text-neon uppercase">Target Persona</span>
+                    <p class="font-display font-bold text-sm text-white mt-1">Urban Pragmatis</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Usia 23–34 • TikTok & IG</p>
+                  </div>
+                  <div class="p-3.5 rounded-2xl bg-plumLight/60 border border-white/8">
+                    <span class="font-mono text-[10px] text-coral uppercase">Pilar Konten</span>
+                    <p class="font-display font-bold text-sm text-white mt-1">Edukasi + Bukti Sosial</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Konversi +38% proyeksi</p>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-gradient-to-r from-plumLight to-obsidian border border-neon/25 flex items-center justify-between">
+                  <div>
+                    <p class="text-xs text-slate-400">Siap menyusun arah bisnis Anda?</p>
+                    <p class="font-display font-bold text-sm text-neon mt-0.5">Langsung masuk cukup dengan Nama Usaha</p>
+                  </div>
+                  <button onclick="App.openLogin()" class="p-2.5 rounded-xl bg-neon text-obsidian font-bold hover:scale-105 transition" title="Mulai Sekarang">
+                    <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Keunggulan Platform -->
+      <section id="keunggulan" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/8">
+        <div class="max-w-3xl">
+          <span class="font-mono text-xs uppercase tracking-widest text-neon">MENGAPA NARASI.AI BERBEDA</span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-2">Dirancang untuk Eksekusi Nyata, Bukan Sekadar Teks Generik</h2>
+          <p class="text-slate-400 mt-3 text-base">Kami menyatukan kerangka kerja konsultan pemasaran strategis ke dalam alur kerja yang cepat, terstruktur, dan langsung bisa disimpan.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-12">
+          <div class="glass-card-interactive rounded-2xl p-6">
+            <div class="w-12 h-12 rounded-xl bg-coral/15 border border-coral/30 flex items-center justify-center text-coral mb-5">
+              <i data-lucide="compass" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white">Berbasis Arah & Positioning</h3>
+            <p class="text-sm text-slate-300 mt-2.5 leading-relaxed">Tidak asal membuat caption viral. Setiap output dimulai dari pemahaman posisi pasar, celah kompetitor, dan psikologi pembeli.</p>
+          </div>
+
+          <div class="glass-card-interactive rounded-2xl p-6">
+            <div class="w-12 h-12 rounded-xl bg-neon/15 border border-neon/30 flex items-center justify-center text-neon mb-5">
+              <i data-lucide="layers" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white">Ekosistem End-to-End</h3>
+            <p class="text-sm text-slate-300 mt-2.5 leading-relaxed">Dari riset pasar, pemetaan persona, pembuatan kalender konten 7 hari, hingga rencana kampanye—semua terhubung dalam satu dashboard.</p>
+          </div>
+
+          <div class="glass-card-interactive rounded-2xl p-6">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-400/30 flex items-center justify-center text-purple-300 mb-5">
+              <i data-lucide="zap" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white">Instan Tanpa Hambatan</h3>
+            <p class="text-sm text-slate-300 mt-2.5 leading-relaxed">Tanpa formulir registrasi panjang atau verifikasi email. Masukkan nama usaha Anda dan seluruh riwayat kerja tersimpan rapi di browser.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: 7 Fitur Utama -->
+      <section id="fitur-utama" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="max-w-2xl">
+            <span class="font-mono text-xs uppercase tracking-widest text-coral">ARSENAL PEMASARAN DIGITAL</span>
+            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-2">7 Modul AI Strategist Terintegrasi</h2>
+            <p class="text-slate-400 mt-3">Klik modul mana saja untuk langsung masuk dan mencobanya untuk bisnis Anda.</p>
+          </div>
+          <button onclick="App.openLogin()" class="self-start md:self-auto px-5 py-2.5 rounded-xl text-sm font-semibold bg-white/8 hover:bg-white/14 text-white border border-white/15 transition">
+            Buka Semua Modul →
+          </button>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+          <!-- Feature Cards -->
+          <div onclick="App.openLogin('market-research')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-coral/15 text-coral"><i data-lucide="bar-chart-3" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">01 // RISET</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-coral transition">AI Market Research</h3>
+            <p class="text-sm text-slate-400 mt-2">Analisis peluang pasar, kebutuhan konsumen, tren terkini, tantangan bisnis, dan rekomendasi strategi masuk pasar.</p>
+          </div>
+
+          <div onclick="App.openLogin('competitor')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-neon/15 text-neon"><i data-lucide="swords" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">02 // KOMPETITOR</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-neon transition">AI Competitor Analyzer</h3>
+            <p class="text-sm text-slate-400 mt-2">Bedah kelebihan & kekurangan pesaing, pola promosi mereka, serta temukan celah diferensiasi agar usaha Anda unggul.</p>
+          </div>
+
+          <div onclick="App.openLogin('persona')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-purple-500/20 text-purple-300"><i data-lucide="users" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">03 // AUDIENS</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-purple-300 transition">AI Customer Persona</h3>
+            <p class="text-sm text-slate-400 mt-2">Bangun profil pembeli ideal lengkap dengan demografi, kebiasaan belanja, kanal media sosial, hingga pemicu keputusan beli.</p>
+          </div>
+
+          <div onclick="App.openLogin('content')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-coral/15 text-coral"><i data-lucide="pen-tool" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">04 // KONTEN</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-coral transition">AI Content Generator</h3>
+            <p class="text-sm text-slate-400 mt-2">Produksi Caption Instagram, skrip TikTok, slogan, copywriting penawaran, hingga kalender konten 7 hari siap pakai.</p>
+          </div>
+
+          <div onclick="App.openLogin('campaign')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-neon/15 text-neon"><i data-lucide="rocket" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">05 // KAMPANYE</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-neon transition">AI Campaign Planner</h3>
+            <p class="text-sm text-slate-400 mt-2">Rancang blueprint kampanye pemasaran lengkap dengan tujuan, timeline eksekusi, platform utama, dan indikator KPI.</p>
+          </div>
+
+          <div onclick="App.openLogin('advisor')" class="cursor-pointer glass-card-interactive rounded-2xl p-6 group">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 rounded-xl bg-amber-500/15 text-amber-300"><i data-lucide="message-square-sparkles" class="w-6 h-6"></i></div>
+              <span class="font-mono text-xs text-slate-500 group-hover:text-neon transition">06 // KONSULTASI</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white group-hover:text-amber-300 transition">AI Marketing Advisor</h3>
+            <p class="text-sm text-slate-400 mt-2">Ruang konsultasi interaktif 24/7 untuk membahas cara menaikkan omzet, akuisisi pelanggan, dan evaluasi performa marketing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Cara Kerja AI -->
+      <section id="cara-kerja" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/8">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="font-mono text-xs uppercase tracking-widest text-neon">ALUR KERJA CERDAS</span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-2">Dari Ide Bisnis ke Strategi Siap Jalan dalam 4 Langkah</h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          <div class="glass-panel rounded-2xl p-6 relative">
+            <span class="font-mono text-3xl font-bold text-coral/35">01</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3">Masukkan Nama Usaha</h3>
+            <p class="text-sm text-slate-400 mt-2">Tanpa registrasi rumit. Identitas brand Anda langsung dikunci sebagai konteks seluruh modul AI.</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 relative">
+            <span class="font-mono text-3xl font-bold text-neon/35">02</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3">Pilih Modul Strategis</h3>
+            <p class="text-sm text-slate-400 mt-2">Mulai dari riset pasar, analisis kompetitor, persona pembeli, atau langsung buat konten & kampanye.</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 relative">
+            <span class="font-mono text-3xl font-bold text-purple-400/35">03</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3">Sintesis Strategi AI</h3>
+            <p class="text-sm text-slate-400 mt-2">Mesin NARASI.AI menyusun analisis terstruktur yang relevan dengan industri dan target pasar lokal Anda.</p>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 relative">
+            <span class="font-mono text-3xl font-bold text-amber-400/35">04</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3">Simpan, Salin & Pantau</h3>
+            <p class="text-sm text-slate-400 mt-2">Arsipkan seluruh hasil di Marketing Dashboard, salin untuk tim Anda, dan pantau progres produktivitas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom CTA -->
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div class="rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-plumLight via-plum to-obsidian border border-coral/35 shadow-2xl text-center relative overflow-hidden">
+          <div class="relative z-10 max-w-2xl mx-auto space-y-5">
+            <span class="font-mono text-xs uppercase tracking-widest text-neon">SIAP MENGAMBIL KENDALI PASAR?</span>
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">Mulai Rancang Strategi Marketing Bisnis Anda Sekarang</h2>
+            <p class="text-slate-300 text-sm sm:text-base">Gratis, tanpa perlu membuat akun, dan langsung dapat digunakan dalam hitungan detik.</p>
+            <div class="pt-2">
+              <button onclick="App.openLogin()" class="px-8 py-4 rounded-2xl font-display font-bold text-base bg-coral hover:bg-coralBright text-white shadow-coral-glow transition inline-flex items-center gap-2.5">
+                <span>Masuk ke Workspace NARASI.AI</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/8 py-8 px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="font-display font-bold text-sm text-white">NARASI<span class="text-coral">.AI</span></span>
+          <span>— AI Marketing Strategist</span>
+        </div>
+        <p>© 2026 NARASI.AI. Dirancang untuk membantu pertumbuhan bisnis & UMKM Indonesia.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 2: LOGIN PAGE (TANPA REGISTRASI)
+  ========================================================================== -->
+  <div id="view-login" class="hidden min-h-screen flex-col items-center justify-center bg-cyber-grid px-4 py-12 relative overflow-hidden">
+    <div class="pointer-events-none absolute top-1/4 left-1/4 w-96 h-96 bg-coral/15 rounded-full blur-[130px]"></div>
+    <div class="pointer-events-none absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon/12 rounded-full blur-[130px]"></div>
+
+    <div class="w-full max-w-md relative z-10 animate-view">
+      <!-- Back to Landing -->
+      <button onclick="App.showLanding()" class="mb-6 inline-flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-white transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Kembali ke Halaman Utama</span>
+      </button>
+
+      <div class="glass-panel rounded-3xl p-7 sm:p-9 border border-white/12 shadow-2xl">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-plumLight to-obsidian border border-coral/40 flex items-center justify-center shadow-coral-glow">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <path d="M5 22V6L15.5 22V6" stroke="#FF5E5B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 6V17.5" stroke="#00F5A0" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="21" cy="21.5" r="2.1" fill="#00F5A0"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-white">NARASI<span class="text-coral">.AI</span></span>
+            <p class="font-mono text-[11px] text-neon">AKSES CEPAT WORKSPACE</p>
+          </div>
+        </div>
+
+        <h1 class="font-display font-bold text-2xl text-white">Mulai Sesi Strategi Anda</h1>
+        <p class="text-sm text-slate-300 mt-1.5 leading-relaxed">
+          Tanpa registrasi, tanpa email, dan tanpa password. Cukup masukkan nama usaha atau brand Anda untuk langsung mengakses dashboard.
+        </p>
+
+        <form id="login-form" class="mt-6 space-y-5">
+          <div>
+            <label for="brand-input" class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
+              Nama Usaha atau Brand <span class="text-coral">*</span>
+            </label>
+            <div class="relative">
+              <input
+                type="text"
+                id="brand-input"
+                required
+                maxlength="60"
+                placeholder="Contoh: Kopi Senja Nusantara / Lumina Skincare"
+                class="narasi-input w-full px-4 py-3.5 rounded-xl text-sm font-medium pr-10"
+              />
+              <i data-lucide="briefcase" class="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+            </div>
+          </div>
+
+          <!-- Quick Demo Brand Chips -->
+          <div>
+            <p class="text-[11px] text-slate-400 mb-2">Atau coba cepat dengan contoh brand:</p>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="App.fillDemoBrand('Kopi Kala Senja')" class="text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-coral/20 hover:text-coral border border-white/10 transition">
+                Kopi Kala Senja
+              </button>
+              <button type="button" onclick="App.fillDemoBrand('Aura Botanica Skin')" class="text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-neon/20 hover:text-neon border border-white/10 transition">
+                Aura Botanica Skin
+              </button>
+              <button type="button" onclick="App.fillDemoBrand('RakitStudio Digital')" class="text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-purple-500/20 hover:text-purple-300 border border-white/10 transition">
+                RakitStudio Digital
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-coral to-coralBright text-white shadow-coral-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+            <span>Masuk ke Dashboard</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-5 border-t border-white/8 flex items-center gap-2.5 text-xs text-slate-400">
+          <i data-lucide="shield-check" class="w-4 h-4 text-neon shrink-0"></i>
+          <span>Nama usaha & seluruh hasil strategi disimpan otomatis di browser Anda.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 3: MAIN APPLICATION DASHBOARD
+  ========================================================================== -->
+  <div id="view-app" class="hidden min-h-screen bg-obsidian">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-backdrop" onclick="App.toggleSidebar(false)" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed top-0 left-0 bottom-0 w-72 bg-void border-r border-white/8 z-50 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out">
+      <!-- Sidebar Brand Header -->
+      <div class="px-6 py-5 border-b border-white/8 flex items-center justify-between">
+        <a href="#" onclick="App.navigate('overview'); return false;" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-plumLight to-obsidian border border-coral/40 flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+              <path d="M5 22V6L15.5 22V6" stroke="#FF5E5B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 6V17.5" stroke="#00F5A0" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="21" cy="21.5" r="2.1" fill="#00F5A0"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-display font-bold text-lg text-white tracking-tight">NARASI<span class="text-coral">.AI</span></span>
+            <span class="block font-mono text-[10px] text-slate-400 -mt-1">AI STRATEGIST</span>
+          </div>
+        </a>
+        <button onclick="App.toggleSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Active Brand Badge in Sidebar -->
+      <div class="px-4 pt-4">
+        <div class="p-3.5 rounded-2xl bg-plum/90 border border-white/8">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-wider text-neon">BRAND AKTIF</span>
+            <span class="w-2 h-2 rounded-full bg-neon"></span>
+          </div>
+          <p id="sidebar-brand-name" class="font-display font-bold text-sm text-white truncate mt-1">Nama Usaha</p>
+        </div>
+      </div>
+
+      <!-- Menu List -->
+      <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto" id="sidebar-nav">
+        <button data-nav="overview" onclick="App.navigate('overview')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="layout-grid" class="w-4 h-4 shrink-0"></i>
+          <span>Ringkasan Bisnis</span>
+        </button>
+
+        <div class="pt-3 pb-1 px-3.5">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-slate-500">MODUL INTELIJEN AI</span>
+        </div>
+
+        <button data-nav="market-research" onclick="App.navigate('market-research')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="bar-chart-3" class="w-4 h-4 shrink-0"></i>
+          <span>AI Market Research</span>
+        </button>
+
+        <button data-nav="competitor" onclick="App.navigate('competitor')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="swords" class="w-4 h-4 shrink-0"></i>
+          <span>AI Competitor Analyzer</span>
+        </button>
+
+        <button data-nav="persona" onclick="App.navigate('persona')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="users" class="w-4 h-4 shrink-0"></i>
+          <span>AI Customer Persona</span>
+        </button>
+
+        <button data-nav="content" onclick="App.navigate('content')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="pen-tool" class="w-4 h-4 shrink-0"></i>
+          <span>AI Content Generator</span>
+        </button>
+
+        <button data-nav="campaign" onclick="App.navigate('campaign')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="rocket" class="w-4 h-4 shrink-0"></i>
+          <span>AI Campaign Planner</span>
+        </button>
+
+        <button data-nav="advisor" onclick="App.navigate('advisor')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="message-square-sparkles" class="w-4 h-4 shrink-0"></i>
+          <span>AI Marketing Advisor</span>
+        </button>
+
+        <div class="pt-3 pb-1 px-3.5">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-slate-500">PERFORMA & ARSIP</span>
+        </div>
+
+        <button data-nav="analytics" onclick="App.navigate('analytics')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition">
+          <i data-lucide="pie-chart" class="w-4 h-4 shrink-0"></i>
+          <span>Marketing Dashboard</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer: Ganti Usaha / Keluar -->
+      <div class="p-4 border-t border-white/8 space-y-2.5">
+        <button onclick="App.switchBrand()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-coral/20 text-slate-200 hover:text-coral border border-white/10 hover:border-coral/35 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Ganti Usaha / Keluar</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Wrapper -->
+    <div class="lg:pl-72 flex flex-col min-h-screen">
+      <!-- Top Bar -->
+      <header class="sticky top-0 z-30 bg-obsidian/85 backdrop-blur-xl border-b border-white/8 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <button onclick="App.toggleSidebar(true)" class="lg:hidden p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200" aria-label="Buka Menu">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-slate-400">Selamat datang di NARASI.AI</span>
+                <span class="hidden sm:inline-flex items-center gap-1 font-mono text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30" title="Terhubung ke arsitektur siap API backend dengan simulasi realistis">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  Mode Demo Simulasi AI
+                </span>
+              </div>
+              <h1 class="font-display font-bold text-base sm:text-lg text-white leading-tight">
+                Siap mengembangkan strategi marketing <span id="header-brand-name" class="text-coral">Bisnis Anda</span>?
+              </h1>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button onclick="App.navigate('analytics')" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium bg-plumLight/80 hover:bg-plumLight text-neon border border-neon/25 transition">
+              <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+              <span>Arsip (<span id="header-saved-count">0</span>)</span>
+            </button>
+            <button onclick="App.switchBrand()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium bg-white/5 hover:bg-coral/20 text-slate-300 hover:text-coral border border-white/10 transition" title="Ganti Usaha atau Keluar">
+              <i data-lucide="repeat" class="w-3.5 h-3.5"></i>
+              <span class="hidden md:inline">Ganti Usaha</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Section Container -->
+      <main class="flex-1 px-4 sm:px-8 py-7 max-w-7xl w-full mx-auto">
+
+        <!-- ================================================================
+             MODULE 1: RINGKASAN BISNIS (OVERVIEW)
+        ================================================================= -->
+        <section id="section-overview" class="app-section space-y-7 animate-view">
+          <!-- Hero Welcome Banner -->
+          <div class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-plumLight via-plum to-void border border-white/10 relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-72 h-72 bg-coral/15 rounded-full blur-[90px] pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div class="space-y-2.5 max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon/10 border border-neon/25 text-neon font-mono text-[11px]">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                  <span>WORKSPACE STRATEGIS AKTIF</span>
+                </div>
+                <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white">
+                  Selamat datang di NARASI.AI
+                </h2>
+                <p class="text-base sm:text-lg text-slate-200 font-medium">
+                  Siap mengembangkan strategi marketing <span class="overview-brand-text text-coral font-bold">Usaha Anda</span>?
+                </p>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                  Pilih salah satu modul di bawah ini untuk memetakan peluang pasar, menganalisis pesaing, membuat konten promosi, atau berkonsultasi langsung dengan AI Marketing Advisor.
+                </p>
+              </div>
+              <div class="flex flex-wrap sm:flex-nowrap gap-3 shrink-0">
+                <button onclick="App.navigate('market-research')" class="px-5 py-3 rounded-xl font-display font-bold text-sm bg-coral hover:bg-coralBright text-white shadow-coral-glow transition flex items-center gap-2">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                  <span>Mulai Riset Pasar</span>
+                </button>
+                <button onclick="App.navigate('content')" class="px-5 py-3 rounded-xl font-display font-semibold text-sm bg-white/10 hover:bg-white/15 text-white border border-white/15 transition flex items-center gap-2">
+                  <i data-lucide="pen-tool" class="w-4 h-4 text-neon"></i>
+                  <span>Buat Konten</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats Row -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>ANALISIS PASAR</span>
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-coral"></i>
+              </div>
+              <p id="ov-stat-research" class="font-display font-bold text-3xl text-white mt-2">0</p>
+              <p class="text-xs text-slate-400 mt-1">Riset, Kompetitor & Persona</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>KONTEN DIBUAT</span>
+                <i data-lucide="pen-tool" class="w-4 h-4 text-neon"></i>
+              </div>
+              <p id="ov-stat-content" class="font-display font-bold text-3xl text-white mt-2">0</p>
+              <p class="text-xs text-slate-400 mt-1">Caption, TikTok & Kalender</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>KAMPANYE</span>
+                <i data-lucide="rocket" class="w-4 h-4 text-purple-400"></i>
+              </div>
+              <p id="ov-stat-campaign" class="font-display font-bold text-3xl text-white mt-2">0</p>
+              <p class="text-xs text-slate-400 mt-1">Rencana Promosi Terstruktur</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>ARSIP TERSIMPAN</span>
+                <i data-lucide="bookmark-check" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <p id="ov-stat-saved" class="font-display font-bold text-3xl text-white mt-2">0</p>
+              <p class="text-xs text-slate-400 mt-1">Tersimpan di Browser</p>
+            </div>
+          </div>
+
+          <!-- Quick Launch Grid -->
+          <div>
+            <h3 class="font-display font-bold text-lg text-white mb-4">Akses Cepat Modul Strategi</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <button onclick="App.navigate('market-research')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-coral/15 text-coral shrink-0"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Market Research</h4>
+                  <p class="text-xs text-slate-400 mt-1">Peluang pasar, tren industri, dan rekomendasi strategi.</p>
+                </div>
+              </button>
+
+              <button onclick="App.navigate('competitor')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-neon/15 text-neon shrink-0"><i data-lucide="swords" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Competitor Analyzer</h4>
+                  <p class="text-xs text-slate-400 mt-1">Bandingkan kekuatan kompetitor & temukan celah menang.</p>
+                </div>
+              </button>
+
+              <button onclick="App.navigate('persona')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-purple-500/20 text-purple-300 shrink-0"><i data-lucide="users" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Customer Persona</h4>
+                  <p class="text-xs text-slate-400 mt-1">Kenali profil psikologis & kebiasaan belanja target pembeli.</p>
+                </div>
+              </button>
+
+              <button onclick="App.navigate('content')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-coral/15 text-coral shrink-0"><i data-lucide="pen-tool" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Content Generator</h4>
+                  <p class="text-xs text-slate-400 mt-1">Caption IG, skrip TikTok, slogan, hingga kalender konten.</p>
+                </div>
+              </button>
+
+              <button onclick="App.navigate('campaign')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-neon/15 text-neon shrink-0"><i data-lucide="rocket" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Campaign Planner</h4>
+                  <p class="text-xs text-slate-400 mt-1">Susun jadwal kampanye multi-platform & indikator KPI.</p>
+                </div>
+              </button>
+
+              <button onclick="App.navigate('advisor')" class="text-left glass-card-interactive rounded-2xl p-5 flex items-start gap-4">
+                <div class="p-3 rounded-xl bg-amber-500/15 text-amber-300 shrink-0"><i data-lucide="message-square-sparkles" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">AI Marketing Advisor</h4>
+                  <p class="text-xs text-slate-400 mt-1">Tanya jawab interaktif strategi penjualan & branding.</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Architecture / Simulation Info Banner -->
+          <div class="rounded-2xl p-4 sm:p-5 bg-plum/60 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+              <i data-lucide="info" class="w-5 h-5 text-neon shrink-0 mt-0.5"></i>
+              <div class="text-xs text-slate-300 leading-relaxed">
+                <strong class="text-white">Catatan Sistem & Keamanan API:</strong> Saat ini NARASI.AI berjalan dalam <span class="text-amber-300 font-semibold">Mode Demo Simulasi Realistis</span> (tanpa API key terbuka di frontend). Struktur kode siap dihubungkan ke endpoint backend aman (<code class="font-mono text-neon">/api/ai/generate</code>).
+              </div>
+            </div>
+            <button onclick="App.navigate('analytics')" class="shrink-0 px-4 py-2 rounded-xl text-xs font-semibold bg-white/8 hover:bg-white/14 text-white border border-white/10 transition">
+              Lihat Marketing Dashboard
+            </button>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 2: AI MARKET RESEARCH
+        ================================================================= -->
+        <section id="section-market-research" class="app-section hidden space-y-6 animate-view">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="font-mono text-xs text-coral uppercase tracking-wider">MODUL 01 // INTELIJEN PASAR</span>
+              <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Market Research</h2>
+              <p class="text-sm text-slate-400 mt-1">Analisis peluang pasar, perilaku konsumen, tren terkini, dan langkah strategis bisnis Anda.</p>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-6">
+            <!-- Input Form -->
+            <form id="form-market-research" class="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-4 self-start">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">NAMA PRODUK / USAHA *</label>
+                <input type="text" id="mr-product" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Nama usaha atau produk utama" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">JENIS INDUSTRI *</label>
+                <select id="mr-industry" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm">
+                  <option value="Kuliner & F&B (Makanan/Minuman)">Kuliner & F&B (Makanan/Minuman)</option>
+                  <option value="Fashion & Kecantikan (Skincare)">Fashion & Kecantikan (Skincare)</option>
+                  <option value="Jasa Digital, Kreatif & Agensi">Jasa Digital, Kreatif & Agensi</option>
+                  <option value="Teknologi & Aplikasi SaaS">Teknologi & Aplikasi SaaS</option>
+                  <option value="Kesehatan, Kebugaran & Gaya Hidup">Kesehatan, Kebugaran & Gaya Hidup</option>
+                  <option value="Pendidikan, Kursus & Pelatihan">Pendidikan, Kursus & Pelatihan</option>
+                  <option value="Ritel & Kerajinan Lokal">Ritel & Kerajinan Lokal</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">TARGET PASAR UTAMA *</label>
+                <input type="text" id="mr-target" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Mahasiswa & pekerja muda usia 20-32 tahun" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">LOKASI PEMASARAN *</label>
+                <input type="text" id="mr-location" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Yogyakarta, Jabodetabek, atau Nasional (Online)" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">DESKRIPSI SINGKAT PRODUK *</label>
+                <textarea id="mr-desc" rows="3" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Jelaskan keunggulan utama, kisaran harga, atau nilai unik produk Anda..."></textarea>
+              </div>
+
+              <button type="submit" id="btn-mr-generate" class="w-full py-3.5 px-5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-coral to-coralBright text-white shadow-coral-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Analisis Pasar Sekarang</span>
+              </button>
+            </form>
+
+            <!-- Output Container -->
+            <div class="lg:col-span-7">
+              <div id="mr-empty" class="glass-panel rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[420px] border-dashed border-white/15">
+                <div class="w-14 h-14 rounded-2xl bg-coral/10 border border-coral/25 flex items-center justify-center text-coral mb-4">
+                  <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-lg text-white">Siap Memetakan Pasar Anda</h3>
+                <p class="text-sm text-slate-400 max-w-md mt-2">Isi detail produk dan target lokasi di sebelah kiri, lalu klik <strong class="text-white">Analisis Pasar Sekarang</strong> untuk mendapatkan laporan strategis.</p>
+              </div>
+
+              <div id="mr-result" class="hidden space-y-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 3: AI COMPETITOR ANALYZER
+        ================================================================= -->
+        <section id="section-competitor" class="app-section hidden space-y-6 animate-view">
+          <div>
+            <span class="font-mono text-xs text-neon uppercase tracking-wider">MODUL 02 // INTELIJEN KOMPETITIF</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Competitor Analyzer</h2>
+            <p class="text-sm text-slate-400 mt-1">Identifikasi kekuatan, kelemahan, pola promosi pesaing, dan temukan celah diferensiasi untuk brand Anda.</p>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-6">
+            <form id="form-competitor" class="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-4 self-start">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">NAMA KOMPETITOR / JENIS BISNIS PESAING *</label>
+                <input type="text" id="comp-name" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Kopi Kenangan / Kedai Kopi Lokal Kekinian" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">SEGMEN HARGA & POSISI PESAING</label>
+                <select id="comp-tier" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm">
+                  <option value="Ekonomis / Mass Market (Harga Terjangkau)">Ekonomis / Mass Market (Harga Terjangkau)</option>
+                  <option value="Menengah / Value-for-Money (Terpopuler)">Menengah / Value-for-Money (Terpopuler)</option>
+                  <option value="Premium / Eksklusif (Margin Tinggi)">Premium / Eksklusif (Margin Tinggi)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">KEUNGGULAN USAHA ANDA SAAT INI *</label>
+                <textarea id="comp-advantage" rows="3" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Bahan baku lebih segar, pelayanan lebih personal, bisa custom pesanan..."></textarea>
+              </div>
+
+              <button type="submit" id="btn-comp-generate" class="w-full py-3.5 px-5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-neon to-emerald-400 text-obsidian shadow-neon-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i data-lucide="swords" class="w-4 h-4"></i>
+                <span>Bedah Strategi Kompetitor</span>
+              </button>
+            </form>
+
+            <div class="lg:col-span-7">
+              <div id="comp-empty" class="glass-panel rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[380px] border-dashed border-white/15">
+                <div class="w-14 h-14 rounded-2xl bg-neon/10 border border-neon/25 flex items-center justify-center text-neon mb-4">
+                  <i data-lucide="swords" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-lg text-white">Temukan Celah untuk Unggul</h3>
+                <p class="text-sm text-slate-400 max-w-md mt-2">Masukkan nama kompetitor atau kategori bisnis pesaing untuk melihat analisis kekuatan, kelemahan, dan strategi mengungguli mereka.</p>
+              </div>
+              <div id="comp-result" class="hidden space-y-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 4: AI CUSTOMER PERSONA
+        ================================================================= -->
+        <section id="section-persona" class="app-section hidden space-y-6 animate-view">
+          <div>
+            <span class="font-mono text-xs text-purple-300 uppercase tracking-wider">MODUL 03 // PSIKOLOGI PEMBELI</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Customer Persona</h2>
+            <p class="text-sm text-slate-400 mt-1">Bangun profil pembeli ideal yang detail agar pesan marketing Anda tepat sasaran.</p>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-6">
+            <form id="form-persona" class="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-4 self-start">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">PRODUK / LAYANAN YANG DITAWARKAN *</label>
+                <input type="text" id="per-product" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Paket Catering Sehat Harian / Jasa Desain Logo" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">KISARAN HARGA PRODUK *</label>
+                <input type="text" id="per-price" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Rp 35.000 - Rp 75.000 per transaksi" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">MASALAH UTAMA YANG DISELESAIKAN *</label>
+                <textarea id="per-problem" rows="3" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Sibuk bekerja sehingga tidak sempat memasak makanan bergizi namun tetap ingin hemat..."></textarea>
+              </div>
+
+              <button type="submit" id="btn-per-generate" class="w-full py-3.5 px-5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-coral to-purple-500 text-white shadow-coral-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i data-lucide="user-check" class="w-4 h-4"></i>
+                <span>Buat Profil Persona Konsumen</span>
+              </button>
+            </form>
+
+            <div class="lg:col-span-7">
+              <div id="per-empty" class="glass-panel rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[380px] border-dashed border-white/15">
+                <div class="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-400/25 flex items-center justify-center text-purple-300 mb-4">
+                  <i data-lucide="users" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-lg text-white">Kenali Siapa Pembeli Ideal Anda</h3>
+                <p class="text-sm text-slate-400 max-w-md mt-2">AI akan menyusun persona lengkap mencakup nama fiktif, rentang usia, kebiasaan belanja, kanal media sosial, hingga pemicu pembelian.</p>
+              </div>
+              <div id="per-result" class="hidden space-y-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 5: AI CONTENT GENERATOR
+        ================================================================= -->
+        <section id="section-content" class="app-section hidden space-y-6 animate-view">
+          <div>
+            <span class="font-mono text-xs text-coral uppercase tracking-wider">MODUL 04 // STUDIO KREATIF AI</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Content Generator</h2>
+            <p class="text-sm text-slate-400 mt-1">Hasilkan materi promosi berkonversi tinggi dan kalender konten terstruktur dalam hitungan detik.</p>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-6">
+            <form id="form-content" class="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-4 self-start">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">JENIS KONTEN PROMOSI *</label>
+                <select id="cnt-type" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm font-medium">
+                  <option value="Caption Instagram">Caption Instagram (Hook + Value + CTA)</option>
+                  <option value="Konten TikTok">Konten TikTok (Konsep Video, Hook 3 Detik & Skrip)</option>
+                  <option value="Ide konten harian">Ide Konten Harian (5 Pilar Konten Kreatif)</option>
+                  <option value="Slogan produk">Slogan Produk & Tagline Brand (5 Opsi)</option>
+                  <option value="Deskripsi produk">Deskripsi Produk (Marketplace & Katalog)</option>
+                  <option value="Copywriting promosi">Copywriting Promosi (Formula AIDA & PAS)</option>
+                  <option value="Kalender konten">Kalender Konten 7 Hari (Jadwal Lengkap)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">TOPIK / PRODUK / PROMO SPESIFIK *</label>
+                <input type="text" id="cnt-topic" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Promo Paket Bundling Akhir Bulan Diskon 25%" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-mono text-slate-300 mb-1.5">GAYA BAHASA</label>
+                  <select id="cnt-tone" class="narasi-input w-full px-3 py-2.5 rounded-xl text-sm">
+                    <option value="Santai & Relatable">Santai & Relatable</option>
+                    <option value="Profesional & Terpercaya">Profesional & Terpercaya</option>
+                    <option value="Persuasif & Urgent">Persuasif & Urgent</option>
+                    <option value="Storytelling Emosional">Storytelling Emosional</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-mono text-slate-300 mb-1.5">AJAKAN (CTA)</label>
+                  <input type="text" id="cnt-cta" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Klik link di bio" value="Klik link di bio sekarang" />
+                </div>
+              </div>
+
+              <button type="submit" id="btn-cnt-generate" class="w-full py-3.5 px-5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-coral to-coralBright text-white shadow-coral-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                <span>Generate Konten Sekarang</span>
+              </button>
+            </form>
+
+            <div class="lg:col-span-7">
+              <div id="cnt-empty" class="glass-panel rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[380px] border-dashed border-white/15">
+                <div class="w-14 h-14 rounded-2xl bg-coral/10 border border-coral/25 flex items-center justify-center text-coral mb-4">
+                  <i data-lucide="pen-tool" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-lg text-white">Studio Konten Siap Beroperasi</h3>
+                <p class="text-sm text-slate-400 max-w-md mt-2">Pilih format konten (Instagram, TikTok, Slogan, Copywriting, hingga Kalender 7 Hari), masukkan topik promo, dan hasil siap disalin atau disimpan.</p>
+              </div>
+              <div id="cnt-result" class="hidden space-y-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 6: AI CAMPAIGN PLANNER
+        ================================================================= -->
+        <section id="section-campaign" class="app-section hidden space-y-6 animate-view">
+          <div>
+            <span class="font-mono text-xs text-neon uppercase tracking-wider">MODUL 05 // PERENCANAAN KAMPANYE</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Campaign Planner</h2>
+            <p class="text-sm text-slate-400 mt-1">Susun blueprint kampanye pemasaran dari tujuan, target audiens, jadwal eksekusi, hingga indikator keberhasilan (KPI).</p>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-6">
+            <form id="form-campaign" class="lg:col-span-5 glass-panel rounded-2xl p-6 space-y-4 self-start">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">TUJUAN UTAMA KAMPANYE *</label>
+                <select id="cmp-goal" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm">
+                  <option value="Meningkatkan Penjualan & Konversi Langsung">Meningkatkan Penjualan & Konversi Langsung</option>
+                  <option value="Brand Awareness & Jangkauan Audiens Baru">Brand Awareness & Jangkauan Audiens Baru</option>
+                  <option value="Peluncuran Produk / Layanan Baru">Peluncuran Produk / Layanan Baru</option>
+                  <option value="Retensi & Pembelian Ulang Pelanggan Lama">Retensi & Pembelian Ulang Pelanggan Lama</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1.5">PRODUK / PENAWARAN UTAMA *</label>
+                <input type="text" id="cmp-offer" required class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm" placeholder="Contoh: Peluncuran Varian Menu Baru / Paket Hemat Ramadan" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-mono text-slate-300 mb-1.5">DURASI KAMPANYE</label>
+                  <select id="cmp-duration" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm">
+                    <option value="14 Hari (Sprint Cepat)">14 Hari (Sprint Cepat)</option>
+                    <option value="30 Hari (1 Bulan Penuh)">30 Hari (1 Bulan Penuh)</option>
+                    <option value="90 Hari (Kuartal / 3 Bulan)">90 Hari (Kuartal / 3 Bulan)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-mono text-slate-300 mb-1.5">SKALA ANGGARAN</label>
+                  <select id="cmp-budget" class="narasi-input w-full px-3.5 py-2.5 rounded-xl text-sm">
+                    <option value="Organik & Mikro (< Rp 1 Juta)">Organik & Mikro (&lt; Rp 1 Juta)</option>
+                    <option value="Menengah (Rp 1 - 5 Juta)">Menengah (Rp 1 - 5 Juta)</option>
+                    <option value="Agresif (> Rp 5 Juta)">Agresif (&gt; Rp 5 Juta)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" id="btn-cmp-generate" class="w-full py-3.5 px-5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-neon to-emerald-400 text-obsidian shadow-neon-glow hover:opacity-95 transition flex items-center justify-center gap-2">
+                <i data-lucide="rocket" class="w-4 h-4"></i>
+                <span>Rancang Blueprint Kampanye</span>
+              </button>
+            </form>
+
+            <div class="lg:col-span-7">
+              <div id="cmp-empty" class="glass-panel rounded-2xl p-10 text-center flex flex-col items-center justify-center min-h-[380px] border-dashed border-white/15">
+                <div class="w-14 h-14 rounded-2xl bg-neon/10 border border-neon/25 flex items-center justify-center text-neon mb-4">
+                  <i data-lucide="rocket" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-lg text-white">Rancang Kampanye Terukur</h3>
+                <p class="text-sm text-slate-400 max-w-md mt-2">Tentukan tujuan dan durasi kampanye untuk mendapatkan nama kampanye, strategi promosi, jadwal fase eksekusi, ide konten, dan KPI terukur.</p>
+              </div>
+              <div id="cmp-result" class="hidden space-y-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 7: AI MARKETING ADVISOR (CHAT)
+        ================================================================= -->
+        <section id="section-advisor" class="app-section hidden space-y-5 animate-view">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="font-mono text-xs text-amber-300 uppercase tracking-wider">MODUL 06 // KONSULTAN VIRTUAL 24/7</span>
+              <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">AI Marketing Advisor</h2>
+              <p class="text-sm text-slate-400 mt-1">Diskusikan tantangan pemasaran <span class="overview-brand-text text-white font-medium">bisnis Anda</span> secara langsung.</p>
+            </div>
+            <button onclick="App.clearChatHistory()" class="self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium bg-white/5 hover:bg-coral/20 text-slate-300 hover:text-coral border border-white/10 transition">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>Hapus Riwayat Chat</span>
+            </button>
+          </div>
+
+          <!-- Quick Topic Prompts -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="App.sendQuickAdvisor('Bagaimana cara meningkatkan penjualan dalam 30 hari ke depan?')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-coral/20 text-slate-200 hover:text-coral border border-white/10 transition">
+              📈 Cara meningkatkan penjualan
+            </button>
+            <button onclick="App.sendQuickAdvisor('Strategi promosi apa yang paling efektif untuk anggaran terbatas?')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-neon/20 text-slate-200 hover:text-neon border border-white/10 transition">
+              🎯 Strategi promosi efektif
+            </button>
+            <button onclick="App.sendQuickAdvisor('Bagaimana cara mendapatkan pelanggan pertama dan membangun kepercayaan?')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-purple-500/20 text-slate-200 hover:text-purple-300 border border-white/10 transition">
+              🤝 Cara mendapatkan pelanggan
+            </button>
+            <button onclick="App.sendQuickAdvisor('Bagaimana langkah pengembangan brand agar terlihat profesional dan diingat?')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-amber-500/20 text-slate-200 hover:text-amber-300 border border-white/10 transition">
+              ✨ Pengembangan brand
+            </button>
+            <button onclick="App.sendQuickAdvisor('Susunkan strategi pemasaran digital yang tepat di Instagram dan TikTok.')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-coral/20 text-slate-200 hover:text-coral border border-white/10 transition">
+              📱 Strategi pemasaran digital
+            </button>
+            <button onclick="App.sendQuickAdvisor('Metrik apa saja yang wajib saya pantau untuk evaluasi pemasaran?')" class="text-xs px-3.5 py-2 rounded-xl bg-plumLight/80 hover:bg-neon/20 text-slate-200 hover:text-neon border border-white/10 transition">
+              📊 Evaluasi pemasaran
+            </button>
+          </div>
+
+          <!-- Chat Window -->
+          <div class="glass-panel rounded-3xl border border-white/10 flex flex-col h-[520px] overflow-hidden">
+            <!-- Chat Header -->
+            <div class="px-5 py-3.5 border-b border-white/8 bg-void/60 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-coral to-plumLight flex items-center justify-center text-white font-bold shadow-coral-glow">
+                  <i data-lucide="bot" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-display font-bold text-sm text-white">NARASI Advisor</h3>
+                  <div class="flex items-center gap-1.5 text-[11px] text-neon">
+                    <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse"></span>
+                    <span>Online • Siap Konsultasi Strategi</span>
+                  </div>
+                </div>
+              </div>
+              <span class="font-mono text-[10px] text-slate-400 hidden sm:inline">SIMULASI KONSULTAN AI</span>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="chat-messages" class="flex-1 p-5 overflow-y-auto space-y-4">
+              <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Chat Input Form -->
+            <form id="form-advisor-chat" class="p-4 border-t border-white/8 bg-void/70 flex items-center gap-3">
+              <input
+                type="text"
+                id="advisor-input"
+                required
+                autocomplete="off"
+                placeholder="Tulis pertanyaan strategi marketing Anda di sini..."
+                class="narasi-input flex-1 px-4 py-3 rounded-xl text-sm"
+              />
+              <button type="submit" class="px-5 py-3 rounded-xl font-display font-bold text-sm bg-coral hover:bg-coralBright text-white shadow-coral-glow transition flex items-center gap-2 shrink-0">
+                <span class="hidden sm:inline">Kirim</span>
+                <i data-lucide="send" class="w-4 h-4"></i>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             MODULE 8: MARKETING DASHBOARD (ANALYTICS & SAVED HISTORY)
+        ================================================================= -->
+        <section id="section-analytics" class="app-section hidden space-y-7 animate-view">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <span class="font-mono text-xs text-neon uppercase tracking-wider">MODUL 07 // PUSAT ANALITIK & ARSIP</span>
+              <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Marketing Dashboard</h2>
+              <p class="text-sm text-slate-400 mt-1">Ringkasan produktivitas strategi, visualisasi distribusi modul, dan arsip hasil yang tersimpan.</p>
+            </div>
+            <button onclick="App.clearAllSavedHistory()" class="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-coral/15 hover:bg-coral/25 text-coral border border-coral/30 transition">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              <span>Bersihkan Semua Riwayat</span>
+            </button>
+          </div>
+
+          <!-- 4 Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-coral">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-slate-400">ANALISIS PASAR</span>
+                <div class="p-2 rounded-lg bg-coral/15 text-coral"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
+              </div>
+              <p id="dash-stat-research" class="font-display font-extrabold text-3xl text-white mt-3">0</p>
+              <p class="text-xs text-slate-400 mt-1">Riset, Kompetitor & Persona</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-neon">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-slate-400">KONTEN DIBUAT</span>
+                <div class="p-2 rounded-lg bg-neon/15 text-neon"><i data-lucide="pen-tool" class="w-4 h-4"></i></div>
+              </div>
+              <p id="dash-stat-content" class="font-display font-extrabold text-3xl text-white mt-3">0</p>
+              <p class="text-xs text-slate-400 mt-1">Total materi promosi</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-purple-400">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-slate-400">KAMPANYE</span>
+                <div class="p-2 rounded-lg bg-purple-500/20 text-purple-300"><i data-lucide="rocket" class="w-4 h-4"></i></div>
+              </div>
+              <p id="dash-stat-campaign" class="font-display font-extrabold text-3xl text-white mt-3">0</p>
+              <p class="text-xs text-slate-400 mt-1">Blueprint kampanye</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-amber-400">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-slate-400">HASIL TERSIMPAN</span>
+                <div class="p-2 rounded-lg bg-amber-500/15 text-amber-300"><i data-lucide="bookmark-check" class="w-4 h-4"></i></div>
+              </div>
+              <p id="dash-stat-saved" class="font-display font-extrabold text-3xl text-white mt-3">0</p>
+              <p class="text-xs text-slate-400 mt-1">Arsip siap eksekusi</p>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="grid lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 glass-panel rounded-2xl p-6">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="font-display font-bold text-base text-white">Aktivitas Produksi Strategi</h3>
+                  <p class="text-xs text-slate-400">Perbandingan jumlah output yang dihasilkan per kategori modul</p>
+                </div>
+                <span class="font-mono text-[11px] text-neon px-2.5 py-1 rounded-lg bg-neon/10">REAL-TIME</span>
+              </div>
+              <div class="h-64 w-full">
+                <canvas id="chart-activity-bar"></canvas>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 glass-panel rounded-2xl p-6">
+              <div class="mb-4">
+                <h3 class="font-display font-bold text-base text-white">Proporsi Fokus Marketing</h3>
+                <p class="text-xs text-slate-400">Keseimbangan riset, konten, dan kampanye</p>
+              </div>
+              <div class="h-64 w-full flex items-center justify-center">
+                <canvas id="chart-focus-doughnut"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saved Items & Activity History -->
+          <div class="glass-panel rounded-2xl p-6 space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <div>
+                <h3 class="font-display font-bold text-lg text-white">Hasil Tersimpan & Riwayat Aktivitas</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Klik "Lihat Detail" untuk membaca ulang, menyalin teks, atau menghapus arsip.</p>
+              </div>
+
+              <!-- Filter Pills -->
+              <div class="flex flex-wrap gap-1.5" id="history-filters">
+                <button onclick="App.filterHistory('ALL')" data-filter="ALL" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-coral text-white transition">Semua</button>
+                <button onclick="App.filterHistory('Market Research')" data-filter="Market Research" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition">Riset Pasar</button>
+                <button onclick="App.filterHistory('Competitor Analyzer')" data-filter="Competitor Analyzer" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition">Kompetitor</button>
+                <button onclick="App.filterHistory('Customer Persona')" data-filter="Customer Persona" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition">Persona</button>
+                <button onclick="App.filterHistory('Content Generator')" data-filter="Content Generator" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition">Konten</button>
+                <button onclick="App.filterHistory('Campaign Planner')" data-filter="Campaign Planner" class="filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition">Kampanye</button>
+              </div>
+            </div>
+
+            <div id="saved-history-list" class="space-y-3">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       JAVASCRIPT APPLICATION ARCHITECTURE
+  ========================================================================== -->
+  <script>
+    /**
+     * KONFIGURASI BACKEND AI & KEAMANAN
+     * Tidak menyimpan API Key di kode frontend.
+     * Siap disambungkan ke endpoint backend aman (/api/ai/generate) saat production.
+     */
+    const AI_CONFIG = {
+      endpoint: '/api/ai/generate',
+      useDemoSimulation: true,
+      simulationDelayMs: 950
+    };
+
+    /**
+     * STORAGE KEYS (localStorage)
+     */
+    const STORAGE_KEYS = {
+      BRAND_NAME: 'narasi_brand_name',
+      SAVED_ITEMS: 'narasi_saved_items',
+      METRICS: 'narasi_metrics',
+      CHAT_HISTORY: 'narasi_chat_history'
+    };
+
+    /**
+     * MODULAR AI SERVICE ENGINE
+     * Menghasilkan analisis marketing berbahasa Indonesia yang terstruktur, kontekstual,
+     * dan realistis sesuai input pengguna & nama usaha.
+     */
+    const AIService = {
+      async request(moduleType, payload) {
+        // Jika backend API sudah diaktifkan di masa depan:
+        if (!AI_CONFIG.useDemoSimulation) {
+          try {
+            const response = await fetch(AI_CONFIG.endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ moduleType, payload })
+            });
+            if (!response.ok) throw new Error('Gagal terhubung ke server AI');
+            return await response.json();
+          } catch (err) {
+            console.warn('Fallback ke mode simulasi demo:', err);
+          }
+        }
+
+        // Simulasi latensi pemrosesan AI yang realistis
+        await new Promise(resolve => setTimeout(resolve, AI_CONFIG.simulationDelayMs));
+
+        switch (moduleType) {
+          case 'market-research':
+            return this.simulateMarketResearch(payload);
+          case 'competitor':
+            return this.simulateCompetitor(payload);
+          case 'persona':
+            return this.simulatePersona(payload);
+          case 'content':
+            return this.simulateContent(payload);
+          case 'campaign':
+            return this.simulateCampaign(payload);
+          case 'advisor':
+            return this.simulateAdvisor(payload);
+          default:
+            throw new Error('Modul tidak dikenali');
+        }
+      },
+
+      simulateMarketResearch({ brand, product, industry, target, location, desc }) {
+        return {
+          title: `Riset Pasar: ${product}`,
+          category: 'Market Research',
+          summary: `Analisis potensi pasar untuk ${product} di sektor ${industry} dengan fokus wilayah ${location}.`,
+          sections: [
+            {
+              heading: '1. Analisis Peluang Pasar',
+              icon: 'trending-up',
+              accent: 'neon',
+              content: `Segmen ${industry} di wilayah ${location} menunjukkan pertumbuhan permintaan yang kuat pada kategori produk bernilai tambah (value-driven). Dengan positioning "${desc}", ${product} memiliki peluang besar mengisi celah pasar menengah yang mencari kualitas konsisten dan narasi brand yang autentik di kalangan ${target}.`
+            },
+            {
+              heading: '2. Kebutuhan & Ekspektasi Konsumen',
+              icon: 'heart-handshake',
+              accent: 'coral',
+              content: `Audiens (${target}) kini tidak hanya membeli fungsi dasar produk, tetapi juga menginginkan: (a) Kecepatan dan kemudahan pemesanan digital, (b) Transparansi kualitas dan bukti ulasan nyata, serta (c) Pengalaman brand yang terasa relevan dengan gaya hidup mereka di ${location}.`
+            },
+            {
+              heading: '3. Tren Pemasaran Terkini',
+              icon: 'flame',
+              accent: 'amber',
+              content: `• Dominasi konten video vertikal berdurasi 15–30 detik (Reels & TikTok) berformat "Behind the Scenes" dan edukasi ringan.\n• Pergeseran kepercayaan dari iklan hard-selling menuju ulasan mikro-influencer lokal dan testimoni pelanggan asli.\n• Penawaran paket bundling & program loyalitas berbasis WhatsApp/komunitas untuk mendorong repeat order.`
+            },
+            {
+              heading: '4. Tantangan Bisnis yang Perlu Diantisipasi',
+              icon: 'alert-circle',
+              accent: 'purple',
+              content: `• Perang harga dari kompetitor generik yang menawarkan produk serupa tanpa diferensiasi kuat.\n• Biaya akuisisi pelanggan baru (CAC) yang cenderung naik jika hanya mengandalkan iklan berbayar tanpa konten organik.\n• Menjaga konsistensi kualitas layanan saat volume pesanan meningkat.`
+            },
+            {
+              heading: '5. Rekomendasi Strategi Pemasaran',
+              icon: 'compass',
+              accent: 'neon',
+              content: `1) Bangun narasi utama (Core Story) yang menonjolkan keunggulan "${desc}".\n2) Terapkan strategi "Local Hero" di ${location} melalui kolaborasi kreator lokal dan optimasi Google Business / TikTok Location.\n3) Buat penawaran pintu masuk (Entry Offer) berisiko rendah untuk memancing pembelian pertama, lalu kunci retensi dengan follow-up personal.`
+            }
+          ],
+          plainText: `LAPORAN AI MARKET RESEARCH — ${product.toUpperCase()}\nIndustri: ${industry} | Target: ${target} | Lokasi: ${location}\n\n1. ANALISIS PELUANG PASAR\nSegmen ${industry} di wilayah ${location} menunjukkan pertumbuhan permintaan yang kuat. Dengan positioning "${desc}", ${product} memiliki peluang mengisi celah pasar di kalangan ${target}.\n\n2. KEBUTUHAN KONSUMEN\nAudiens menginginkan kemudahan pemesanan digital, transparansi kualitas, dan pengalaman brand yang relevan dengan gaya hidup mereka.\n\n3. TREN PEMASARAN\n- Video vertikal singkat (Reels & TikTok) berformat edukasi & behind-the-scenes.\n- Kolaborasi mikro-influencer lokal & bukti sosial.\n- Paket bundling & retensi pelanggan berbasis komunitas.\n\n4. TANTANGAN BISNIS\n- Kompetisi harga dari pemain generik.\n- Kenaikan biaya iklan jika tanpa fondasi konten organik.\n\n5. REKOMENDASI STRATEGI\n- Tonjolkan diferensiasi "${desc}" secara konsisten.\n- Optimalkan pemasaran lokal di ${location} dan buat penawaran percobaan pertama yang menarik.\n\n[Catatan: Hasil dihasilkan dalam Mode Demo Simulasi NARASI.AI]`
+        };
+      },
+
+      simulateCompetitor({ brand, competitor, tier, advantage }) {
+        return {
+          title: `Bedah Kompetitor: ${competitor}`,
+          category: 'Competitor Analyzer',
+          summary: `Perbandingan strategis antara ${brand} melawan ${competitor} (${tier}).`,
+          analysis: `${competitor} bermain di segmen ${tier} dengan mengandalkan pengenalan merek yang sudah lebih dulu hadir dan volume distribusi standar. Namun, pemain besar atau mapan di kategori ini sering kali kaku dalam beradaptasi terhadap kebutuhan personal konsumen lokal—di sinilah peluang utama ${brand}.`,
+          strengths: [
+            `Kesadaran merek (brand recall) sudah terbentuk di segmen ${tier}.`,
+            `Kapasitas produksi/operasional stabil dengan katalog produk standar.`,
+            `Aktif menjalankan promo potongan harga musiman untuk menjaga volume.`
+          ],
+          weaknesses: [
+            `Komunikasi pemasaran cenderung kaku, massal, dan kurang personal.`,
+            `Kurang fleksibel dalam menyesuaikan penawaran dengan selera spesifik pelanggan.`,
+            `Respon layanan pelanggan dan edukasi produk pasca-pembelian masih minim.`
+          ],
+          promoStrategy: `${competitor} banyak mengandalkan promosi berbasis diskon volume, katalog visual standar di media sosial, serta penempatan iklan berulang pada kata kunci populer.`,
+          differentiation: `Posisikan ${brand} sebagai alternatif yang lebih kuratif, responsif, dan unggul melalui: "${advantage}". Alih-alih ikut perang harga, menangkan persepsi kualitas dan kedekatan emosional dengan audiens.`,
+          recommendations: [
+            `Jadikan "${advantage}" sebagai pesan utama (headline) di profil media sosial dan materi iklan ${brand}.`,
+            `Buat konten perbandingan nilai (bukan menjatuhkan nama) yang menunjukkan mengapa standar ${brand} lebih menguntungkan pembeli.`,
+            `Tawarkan pengalaman layanan cepat & garansi kepuasan untuk merebut pelanggan ${competitor} yang kecewa.`
+          ],
+          plainText: `ANALISIS KOMPETITOR — ${brand.toUpperCase()} vs ${competitor.toUpperCase()}\nSegmen Kompetitor: ${tier}\n\nANALISIS UMUM:\n${competitor} memiliki pengenalan merek yang mapan namun komunikasi mereka cenderung massal dan kurang personal.\n\nKELEBIHAN KOMPETITOR:\n- Brand recall sudah terbentuk.\n- Operasional stabil & promo diskon rutin.\n\nKEKURANGAN KOMPETITOR:\n- Komunikasi kaku dan kurang personal.\n- Minim edukasi dan kedekatan dengan pelanggan.\n\nSTRATEGI PROMOSI KOMPETITOR:\nMengandalkan diskon musiman dan katalog standar.\n\nPELUANG DIFERENSIASI UNTUK ${brand.toUpperCase()}:\nTonjolkan keunggulan "${advantage}" untuk memenangkan persepsi kualitas tanpa terjebak perang harga.\n\nREKOMENDASI UNGGUL:\n1. Jadikan "${advantage}" headline utama di semua kanal.\n2. Buat konten edukasi nilai tambah.\n3. Berikan layanan responsif & penawaran bundling eksklusif.\n\n[Catatan: Hasil dihasilkan dalam Mode Demo Simulasi NARASI.AI]`
+        };
+      },
+
+      simulatePersona({ brand, product, price, problem }) {
+        const personaNames = [
+          { name: 'Nadia Putri Maharani', age: '26 Tahun', job: 'Digital Product Specialist & Kreator Konten', city: 'Kota Besar / Urban' },
+          { name: 'Raka Pratama Wijaya', age: '29 Tahun', job: 'Supervisor Operasional & Pebisnis Muda', city: 'Area Metropolitan' },
+          { name: 'Alya Rahmadani', age: '24 Tahun', job: 'Karyawan Kreatif & Mahasiswi Pascasarjana', city: 'Kota Pendidikan & Bisnis' }
+        ];
+        const chosen = personaNames[product.length % personaNames.length];
+
+        return {
+          title: `Persona: ${chosen.name} (${product})`,
+          category: 'Customer Persona',
+          personaName: chosen.name,
+          ageRange: `${chosen.age} (Rentang 22–34 Tahun)`,
+          occupation: chosen.job,
+          characteristics: `Aktif secara digital, kritis terhadap kualitas sebelum membeli, menyukai brand yang memiliki estetika rapi serta komunikasi jujur. Menghargai efisiensi waktu namun tetap memperhatikan nilai sepadan untuk harga ${price}.`,
+          needsAndWants: `Membutuhkan solusi praktis untuk mengatasi masalah "${problem}". Menginginkan produk/layanan dari ${brand} yang terpercaya, mudah diakses, dan memberikan hasil nyata tanpa proses berbelit.`,
+          shoppingHabits: `Melakukan riset singkat melalui ulasan video pendek atau komentar pembeli sebelum checkout. Cenderung melakukan pembelian berulang (repeat order) jika pengalaman pertama memuaskan dan admin responsif.`,
+          socialMedia: [
+            { platform: 'Instagram (Reels & Story)', share: '88%' },
+            { platform: 'TikTok (Review & Edukasi)', share: '82%' },
+            { platform: 'WhatsApp (Transaksi & Komunitas)', share: '76%' },
+            { platform: 'YouTube / Google Search', share: '54%' }
+          ],
+          buyingFactors: [
+            'Bukti sosial nyata (testimoni jujur & rating pelanggan sebelumnya).',
+            `Kesesuaian manfaat dengan kisaran harga (${price}).`,
+            'Kejelasan informasi produk dan kecepatan respon saat bertanya.',
+            'Penawaran paket bundling atau bonus eksklusif untuk pembeli baru.'
+          ],
+          plainText: `AI CUSTOMER PERSONA — ${brand.toUpperCase()}\nProduk: ${product} | Harga: ${price}\n\nNama Persona: ${chosen.name}\nRentang Usia: ${chosen.age} (22–34 Tahun)\nProfesi: ${chosen.job}\n\nKARAKTERISTIK KONSUMEN:\nAktif digital, selektif terhadap kualitas, dan menghargai brand dengan komunikasi jujur serta estetika modern.\n\nKEBUTUHAN & KEINGINAN:\nMencari solusi praktis untuk masalah "${problem}" dengan kualitas yang sepadan di kisaran ${price}.\n\nKEBIASAAN BERBELANJA:\nMengecek ulasan video/testimoni sebelum membeli dan loyal jika pengalaman pertama memuaskan.\n\nMEDIA SOSIAL UTAMA:\nInstagram (88%), TikTok (82%), WhatsApp (76%), Google/YouTube (54%).\n\nFAKTOR KEPUTUSAN PEMBELIAN:\n1. Testimoni & bukti sosial nyata.\n2. Nilai manfaat dibanding harga (${price}).\n3. Kecepatan respon & kemudahan transaksi.\n\n[Catatan: Hasil dihasilkan dalam Mode Demo Simulasi NARASI.AI]`
+        };
+      },
+
+      simulateContent({ brand, type, topic, tone, cta }) {
+        let formattedOutput = '';
+        let tableData = null;
+
+        switch (type) {
+          case 'Caption Instagram':
+            formattedOutput = `✨ HOOK PEMBUKA:\nMasih sering bingung cari solusi ${topic} yang hasilnya beneran kerasa tanpa ribet? Kenalan dulu sama ${brand}!\n\n💡 ISI UTAMA:\nKami percaya kamu berhak dapetin kualitas terbaik setiap hari. Lewat ${topic}, ${brand} hadir dengan pendekatan yang lebih relevan, praktis, dan dirancang khusus buat nemenin aktivitasmu dengan gaya ${tone.toLowerCase()}.\n\n✅ Kenapa banyak yang mulai beralih ke ${brand}?\n• Kualitas terkurasi & konsisten\n• Dirancang sesuai kebutuhan nyata kamu\n• Pelayanan cepat & ramah\n\n🚀 CALL TO ACTION:\nJangan tunggu sampai kehabisan slot/stoknya hari ini. ${cta}!\n\n📌 REKOMENDASI HASHTAG:\n#${brand.replace(/\s+/g, '')} #StrategiBisnis #RekomendasiLokal #ProdukPilihan #UMKMNaikKelas`;
+            break;
+
+          case 'Konten TikTok':
+            formattedOutput = `🎬 KONSEP VIDEO TIKTOK (Durasi 20–30 Detik)\nTema: ${topic} | Gaya: ${tone}\n\n[00:00 - 00:03] HOOK VISUAL & AUDIO:\n• Visual: Close-up ekspresi kaget/penasaran sambil menunjukkan hasil nyata ${brand}.\n• Teks di Layar: "Jujur, nyesel baru tahu cara ini buat ${topic}..."\n• Voiceover: "Kalau kamu masih ngalamin masalah soal ${topic}, coba stop scroll 15 detik aja!"\n\n[00:04 - 00:18] DEMONSTRASI & VALUE:\n• Visual: Tunjukkan 3 poin keunggulan ${brand} secara cepat (cut setiap 2.5 detik).\n• Voiceover: "Di ${brand}, semuanya dibuat lebih simpel dan hasilnya langsung kelihatan. Mulai dari detail kualitasnya sampai kemudahan pemesanannya."\n\n[00:19 - 00:25] CALL TO ACTION:\n• Visual: Tunjukkan cara order / klik keranjang atau profil.\n• Voiceover: "Mumpung masih ada penawaran spesial ${topic}, ${cta}!"`;
+            break;
+
+          case 'Ide konten harian':
+            formattedOutput = `📅 5 IDE KONTEN HARIAN UNTUK ${brand.toUpperCase()} (Topik: ${topic})\n\n1. [EDUKASI] "3 Kesalahan Umum Seputar ${topic} yang Sering Bikin Rugi"\n   → Format: Carousel 5 slide dengan desain kontras tinggi.\n\n2. [BEHIND THE SCENES] "Proses di Balik Layar ${brand} Menyiapkan ${topic}"\n   → Format: Reels/TikTok 15 detik dengan musik trending santai.\n\n3. [BUKTI SOSIAL] "Cerita Pelanggan Pertama Kali Mencoba ${brand}"\n   → Format: Tangkapan layar ulasan asli + cerita singkat perubahan yang dirasakan.\n\n4. [INTERAKTIF] "Polling & Q&A: Kamu Tim A atau Tim B untuk ${topic}?"\n   → Format: Instagram Story interaktif dengan stiker polling.\n\n5. [PENAWARAN] "Highlight Spesial ${topic} — Slot Terbatas Minggu Ini"\n   → Format: Single poster elegan + CTA jelas (${cta}).`;
+            break;
+
+          case 'Slogan produk':
+            formattedOutput = `🏷️ 5 OPSI SLOGAN & TAGLINE UNTUK ${brand.toUpperCase()}\nKonteks: ${topic} (${tone})\n\n1. "${brand}: Arah Baru untuk ${topic} yang Lebih Bermakna."\n2. "Bukan Sekadar Janji, ${brand} Hadirkan Bukti Nyata."\n3. "Lebih Dekat, Lebih Cerdas, Lebih Tepat Bersama ${brand}."\n4. "${topic} Tanpa Ribet — Mulai Langkahmu Bareng ${brand}."\n5. "Kualitas yang Bicara, Cerita yang Melekat. ${brand}."`;
+            break;
+
+          case 'Deskripsi produk':
+            formattedOutput = `📦 DESKRIPSI PRODUK SIAP PAKAI — ${brand.toUpperCase()}\n\nHadirkan standar baru dalam pengalaman ${topic} bersama ${brand}. Dirancang dengan perhatian penuh pada detail, kualitas bahan/layanan pilihan, serta kenyamanan penggunaan sehari-hari.\n\nKEUNGGULAN UTAMA:\n✔ Kualitas teruji dan konsisten di setiap pesanan\n✔ Solusi praktis untuk kebutuhan ${topic} Anda\n✔ Dikemas/disajikan secara profesional dan aman\n✔ Dukungan layanan pelanggan responsif\n\nSPESIFIKASI & INFO PEMESANAN:\n• Brand: ${brand}\n• Program/Varian: ${topic}\n• Gaya Layanan: ${tone}\n\nSiap merasakan perbedaannya? ${cta}!`;
+            break;
+
+          case 'Copywriting promosi':
+            formattedOutput = `🎯 COPYWRITING PROMOSI (FORMULA AIDA)\nBrand: ${brand} | Penawaran: ${topic}\n\n[ATTENTION]\nPerhatian untuk kamu yang ingin hasil maksimal dari ${topic} tanpa membuang waktu dan biaya!\n\n[INTEREST]\nBanyak orang mencoba berbagai cara, tapi sering kecewa karena hasilnya tidak konsisten. ${brand} merancang pendekatan berbeda yang fokus pada kualitas nyata dan kemudahan bagi pengguna.\n\n[DESIRE]\nBayangkan betapa tenangnya saat kebutuhan ${topic} kamu ditangani dengan standar terbaik—lebih hemat waktu, lebih terpercaya, dan didukung puluhan pelanggan yang sudah membuktikannya.\n\n[ACTION]\nAmbil langkah sekarang sebelum promo ${topic} berakhir. ${cta}!`;
+            break;
+
+          case 'Kalender konten':
+            tableData = [
+              { day: 'Hari 1 (Senin)', pillar: 'Edukasi Masalah', format: 'Carousel IG', idea: `Mengapa ${topic} penting diperhatikan mulai sekarang`, cta: 'Simpan postingan ini' },
+              { day: 'Hari 2 (Selasa)', pillar: 'Behind The Scenes', format: 'TikTok / Reels', idea: `Proses kerja & standar kualitas tim ${brand}`, cta: 'Follow untuk tips harian' },
+              { day: 'Hari 3 (Rabu)', pillar: 'Solusi Produk', format: 'Single Post Visual', idea: `Bagaimana ${brand} menjawab kebutuhan ${topic}`, cta: cta },
+              { day: 'Hari 4 (Kamis)', pillar: 'Bukti Sosial', format: 'Story + Highlight', idea: `Testimoni & studi kasus kepuasan pelanggan ${brand}`, cta: 'Tanya via DM/WA' },
+              { day: 'Hari 5 (Jumat)', pillar: 'Interaksi Audiens', format: 'Reels Q&A', idea: `Menjawab 3 pertanyaan paling sering soal ${topic}`, cta: 'Tulis pertanyaanmu di komentar' },
+              { day: 'Hari 6 (Sabtu)', pillar: 'Soft Selling', format: 'Video Lifestyle', idea: `Pengalaman menggunakan ${brand} di akhir pekan`, cta: cta },
+              { day: 'Hari 7 (Minggu)', pillar: 'Penawaran Spesial', format: 'Poster Promo', idea: `Ringkasan penawaran khusus ${topic} minggu ini`, cta: cta }
+            ];
+            formattedOutput = `🗓️ KALENDER KONTEN 7 HARI — ${brand.toUpperCase()}\nFokus Tema: ${topic} | Gaya Bahasa: ${tone}\n\n` +
+              tableData.map(r => `${r.day} [${r.pillar} - ${r.format}]: ${r.idea} (CTA: ${r.cta})`).join('\n');
+            break;
+        }
+
+        return {
+          title: `${type}: ${topic}`,
+          category: 'Content Generator',
+          contentType: type,
+          tone,
+          cta,
+          output: formattedOutput,
+          tableData,
+          plainText: `${formattedOutput}\n\n[Catatan: Hasil dihasilkan dalam Mode Demo Simulasi NARASI.AI]`
+        };
+      },
+
+      simulateCampaign({ brand, goal, offer, duration, budget }) {
+        const campaignName = `Gerakan #ArahBaru ${brand}: ${offer}`;
+        return {
+          title: `Kampanye: ${campaignName}`,
+          category: 'Campaign Planner',
+          campaignName,
+          goal,
+          targetAudience: `Audiens digital usia 21–38 tahun yang aktif di Instagram, TikTok, dan WhatsApp, memiliki ketertarikan tinggi pada kategori produk ${brand}, serta responsif terhadap penawaran bernilai tambah (${offer}).`,
+          promoStrategy: `Menggunakan strategi corong pemasaran 3 tahap (Awareness → Consideration → Conversion) dengan alokasi anggaran ${budget}. Menggabungkan konten organik bercerita (storytelling), aktivasi testimoni pelanggan, serta penawaran terbatas waktu untuk mendorong keputusan cepat.`,
+          platforms: ['Instagram (Reels, Story & Feed)', 'TikTok (Short Video & Spark Ads)', 'WhatsApp Business (Broadcast & Closing)'],
+          schedule: [
+            { phase: 'Fase 1: Teaser & Edukasi (25% Durasi Awal)', detail: `Bangun rasa penasaran audiens seputar "${offer}" tanpa langsung berjualan keras. Fokus pada masalah audiens dan solusi ${brand}.` },
+            { phase: 'Fase 2: Peluncuran & Bukti Sosial (50% Durasi Inti)', detail: `Publikasikan penawaran utama "${offer}", tayangkan video demonstrasi produk, ulasan kreator/pelanggan, serta buka sesi tanya jawab langsung.` },
+            { phase: 'Fase 3: Urgensi & Penutupan (25% Durasi Akhir)', detail: `Hitung mundur berakhirnya periode kampanye (${duration}), ingatkan prospek yang sudah bertanya di WhatsApp/DM, dan berikan bonus pembelian terakhir.` }
+          ],
+          contentIdeas: [
+            `Video pendek 20 detik: "Kenapa ${offer} dari ${brand} wajib kamu coba minggu ini."`,
+            `Infografis Carousel: "Perbandingan sebelum dan sesudah menggunakan solusi ${brand}."`,
+            `Template Story interaktif: Hitung mundur promo & sesi Q&A langsung bersama founder/tim ${brand}.`
+          ],
+          kpis: [
+            'Jangkauan & Tayangan Konten (Reach & Impressions) meningkat +40% dari rata-rata mingguan.',
+            'Tingkat Interaksi (Engagement Rate) minimal 4.5% pada konten utama kampanye.',
+            'Jumlah Prospek Masuk (Leads / Klik Link Bio / Chat WA) terukur setiap hari.',
+            `Tingkat Konversi Penjualan (Conversion Rate) sesuai target tujuan: ${goal}.`
+          ],
+          plainText: `BLUEPRINT KAMPANYE PEMASARAN — ${brand.toUpperCase()}\n\nNAMA KAMPANYE:\n${campaignName}\n\nTUJUAN KAMPANYE:\n${goal} (Durasi: ${duration} | Skala Anggaran: ${budget})\n\nTARGET AUDIENS:\nAudiens aktif Instagram, TikTok, dan WhatsApp usia 21–38 tahun yang relevan dengan penawaran ${offer}.\n\nSTRATEGI PROMOSI:\nPendekatan 3 tahap (Awareness → Consideration → Conversion) memadukan storytelling organik, bukti sosial, dan penawaran terbatas.\n\nPLATFORM UTAMA:\nInstagram, TikTok, dan WhatsApp Business.\n\nJADWAL KAMPANYE:\n- Fase 1 (25% Awal): Teaser & edukasi masalah.\n- Fase 2 (50% Inti): Peluncuran penawaran "${offer}" & testimoni.\n- Fase 3 (25% Akhir): Urgensi penutupan & follow-up leads.\n\nIDE KONTEN:\n1. Video pendek demonstrasi ${offer}.\n2. Carousel perbandingan manfaat.\n3. Story hitung mundur & Q&A.\n\nINDIKATOR KEBERHASILAN (KPI):\n- Pertumbuhan Reach +40%\n- Engagement Rate > 4.5%\n- Pertumbuhan Leads & Konversi Penjualan\n\n[Catatan: Hasil dihasilkan dalam Mode Demo Simulasi NARASI.AI]`
+        };
+      },
+
+      simulateAdvisor({ brand, question }) {
+        const q = question.toLowerCase();
+        let reply = '';
+
+        if (q.includes('penjualan') || q.includes('omzet') || q.includes('laku')) {
+          reply = `Untuk meningkatkan penjualan **${brand}** secara terukur dalam 30 hari ke depan, terapkan 3 tuas utama berikut:\n\n` +
+            `1. **Optimalkan Penawaran Bundling (Menaikkan Nilai Transaksi):** Gabungkan produk terlaris ${brand} dengan produk pelengkap pada harga paket khusus agar rata-rata nilai belanja pelanggan naik.\n` +
+            `2. **Follow-up Database Pelanggan Lama:** Hubungi kembali pelanggan yang pernah membeli di ${brand} melalui WhatsApp personal dengan penawaran khusus "Pelanggan Prioritas". Biaya konversinya jauh lebih murah dibanding mencari pembeli baru.\n` +
+            `3. **Perjelas Call-to-Action di Semua Konten:** Pastikan setiap postingan Instagram/TikTok mengarahkan audiens ke satu pintu pemesanan yang cepat dan minim hambatan.`;
+        } else if (q.includes('promosi') || q.includes('anggaran') || q.includes('budget')) {
+          reply = `Strategi promosi paling efektif untuk **${brand}** dengan anggaran efisien adalah **Guerilla Digital & Kolaborasi Mikro**:\n\n` +
+            `• **Sistem Barter / Seeding Mikro-Kreator:** Kirimkan produk ${brand} ke 5–10 kreator lokal dengan 2.000–15.000 pengikut yang audiensnya cocok. Minta ulasan jujur berformat video singkat.\n` +
+            `• **Program Referral Pelanggan:** Berikan voucher/bonus khusus setiap kali pelanggan ${brand} mengajak 1 teman untuk bertransaksi.\n` +
+            `• **Repurpose 1 Konten ke 3 Kanal:** Satu video edukasi berdurasi 30 detik dapat diunggah sekaligus ke TikTok, Instagram Reels, dan WhatsApp Status.`;
+        } else if (q.includes('pelanggan') || q.includes('pembeli') || q.includes('akuisisi')) {
+          reply = `Untuk mendapatkan pelanggan baru dan membangun kepercayaan terhadap **${brand}**:\n\n` +
+            `1. **Tampilkan "Wajah & Proses" di Balik Brand:** Pembeli modern lebih percaya pada bisnis yang transparan. Tunjukkan cara tim ${brand} menjaga kualitas.\n` +
+            `2. **Berikan Lead Magnet / Penawaran Percobaan:** Buat paket ukuran kecil (starter pack) atau konsultasi gratis pertama agar calon pembeli berani mencoba tanpa ragu.\n` +
+            `3. **Kumpulkan & Pajang Bukti Sosial:** Dokumentasikan setiap tangkapan layar ulasan positif dan jadikan Highlight utama di profil media sosial ${brand}.`;
+        } else if (q.includes('brand') || q.includes('branding') || q.includes('diingat')) {
+          reply = `Pengembangan brand **${brand}** agar terlihat profesional dan mudah diingat bertumpu pada konsistensi 3 elemen:\n\n` +
+            `• **Satu Pesan Utama (Core Positioning):** Tentukan satu hal yang membuat ${brand} paling menonjol dibanding pesaing, lalu ulangi pesan itu di bio, kemasan, dan pembuka konten.\n` +
+            `• **Identitas Visual & Gaya Bahasa Konsisten:** Gunakan palet warna, tipografi, dan gaya sapaan yang seragam di seluruh titik kontak pelanggan.\n` +
+            `• **Brand Storytelling:** Ceritakan alasan mengapa ${brand} didirikan dan nilai apa yang diperjuangkan untuk pelanggan.`;
+        } else if (q.includes('digital') || q.includes('instagram') || q.includes('tiktok')) {
+          reply = `Rekomendasi strategi pemasaran digital untuk **${brand}** di Instagram & TikTok:\n\n` +
+            `• **Komposisi Konten 4-3-2-1:** Dalam 10 konten, buat 4 konten edukasi/tips, 3 konten hiburan/relatable industri, 2 konten bukti sosial/testimoni, dan 1 konten penawaran langsung (hard-sell).\n` +
+            `• **Hook 3 Detik Pertama:** Mulai setiap video dengan masalah spesifik yang dialami target pasar ${brand} atau hasil akhir yang memikat.\n` +
+            `• **Interaksi Aktif 15 Menit Pertama:** Balas setiap komentar dengan cepat untuk memicu sinyal positif pada algoritma distribusi.`;
+        } else if (q.includes('evaluasi') || q.includes('metrik') || q.includes('ukur')) {
+          reply = `Untuk mengevaluasi performa pemasaran **${brand}** secara objektif setiap minggu, pantau 4 metrik inti ini:\n\n` +
+            `1. **Reach & Hook Rate (Kesadaran):** Berapa banyak orang baru yang melihat konten ${brand} dan bertahan menonton >3 detik.\n` +
+            `2. **Save & Share Rate (Relevansi):** Konten yang banyak disimpan dan dibagikan menandakan pesan Anda benar-benar bermanfaat.\n` +
+            `3. **Lead / Inquiry Rate (Minat):** Jumlah klik link profil atau chat masuk yang menanyakan produk ${brand}.\n` +
+            `4. **Conversion & Repeat Order Rate (Profitabilitas):** Persentase prospek yang benar-benar membayar dan kembali membeli.`;
+        } else {
+          reply = `Terima kasih atas pertanyaannya terkait **${brand}**. Berdasarkan pertanyaan Anda mengenai *"${question}"*, berikut rekomendasi strategis dari NARASI.AI:\n\n` +
+            `1. **Audit Pesan Utama:** Pastikan calon pelanggan langsung memahami manfaat utama ${brand} dalam 5 detik pertama saat melihat profil atau penawaran Anda.\n` +
+            `2. **Fokus pada Satu Kanal Utama Dulu:** Maksimalkan performa di satu kanal tempat audiens ${brand} paling aktif berkumpul sebelum memperluas ke banyak platform sekaligus.\n` +
+            `3. **Uji Coba & Ukur:** Jalankan variasi penawaran selama 14 hari, catat respons pelanggan, dan gandakan format konten yang menghasilkan interaksi serta chat terbanyak.\n\n` +
+            `Anda juga dapat menggunakan modul **AI Market Research** atau **AI Campaign Planner** di menu samping untuk menyusun dokumen rincinya.`;
+        }
+
+        return { reply };
+      }
+    };
+
+    /**
+     * MAIN APPLICATION CONTROLLER
+     */
+    const App = {
+      state: {
+        brandName: '',
+        activeSection: 'overview',
+        savedItems: [],
+        metrics: {
+          researchCount: 0,
+          contentCount: 0,
+          campaignCount: 0
+        },
+        chatHistory: [],
+        historyFilter: 'ALL',
+        charts: {
+          bar: null,
+          doughnut: null
+        }
+      },
+
+      init() {
+        this.loadFromStorage();
+        this.bindEvents();
+        lucide.createIcons();
+
+        // Cek apakah pengguna sudah login sebelumnya
+        if (this.state.brandName) {
+          this.enterDashboard(this.state.brandName, false);
+        } else {
+          this.showLanding();
+        }
+      },
+
+      loadFromStorage() {
+        try {
+          const savedBrand = localStorage.getItem(STORAGE_KEYS.BRAND_NAME);
+          const savedItems = JSON.parse(localStorage.getItem(STORAGE_KEYS.SAVED_ITEMS) || '[]');
+          const savedMetrics = JSON.parse(localStorage.getItem(STORAGE_KEYS.METRICS) || 'null');
+          const savedChat = JSON.parse(localStorage.getItem(STORAGE_KEYS.CHAT_HISTORY) || '[]');
+
+          if (savedBrand) this.state.brandName = savedBrand;
+          if (Array.isArray(savedItems)) this.state.savedItems = savedItems;
+          if (savedMetrics) this.state.metrics = { ...this.state.metrics, ...savedMetrics };
+          if (Array.isArray(savedChat)) this.state.chatHistory = savedChat;
+        } catch (e) {
+          console.error('Gagal memuat data localStorage:', e);
+        }
+      },
+
+      saveToStorage() {
+        try {
+          localStorage.setItem(STORAGE_KEYS.BRAND_NAME, this.state.brandName);
+          localStorage.setItem(STORAGE_KEYS.SAVED_ITEMS, JSON.stringify(this.state.savedItems));
+          localStorage.setItem(STORAGE_KEYS.METRICS, JSON.stringify(this.state.metrics));
+          localStorage.setItem(STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(this.state.chatHistory));
+        } catch (e) {
+          console.error('Gagal menyimpan ke localStorage:', e);
+        }
+      },
+
+      bindEvents() {
+        // Login Form
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const input = document.getElementById('brand-input');
+          const name = input.value.trim();
+          if (!name) {
+            this.toast('Masukkan nama usaha atau brand terlebih dahulu.', 'error');
+            input.focus();
+            return;
+          }
+          this.enterDashboard(name, true);
+        });
+
+        // Market Research Form
+        document.getElementById('form-market-research').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            brand: this.state.brandName,
+            product: document.getElementById('mr-product').value.trim(),
+            industry: document.getElementById('mr-industry').value,
+            target: document.getElementById('mr-target').value.trim(),
+            location: document.getElementById('mr-location').value.trim(),
+            desc: document.getElementById('mr-desc').value.trim()
+          };
+          if (!payload.product || !payload.target || !payload.location || !payload.desc) {
+            this.toast('Mohon lengkapi seluruh kolom riset pasar.', 'error');
+            return;
+          }
+          await this.runModule('market-research', 'btn-mr-generate', payload);
+        });
+
+        // Competitor Analyzer Form
+        document.getElementById('form-competitor').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            brand: this.state.brandName,
+            competitor: document.getElementById('comp-name').value.trim(),
+            tier: document.getElementById('comp-tier').value,
+            advantage: document.getElementById('comp-advantage').value.trim()
+          };
+          if (!payload.competitor || !payload.advantage) {
+            this.toast('Mohon isi nama kompetitor dan keunggulan usaha Anda.', 'error');
+            return;
+          }
+          await this.runModule('competitor', 'btn-comp-generate', payload);
+        });
+
+        // Customer Persona Form
+        document.getElementById('form-persona').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            brand: this.state.brandName,
+            product: document.getElementById('per-product').value.trim(),
+            price: document.getElementById('per-price').value.trim(),
+            problem: document.getElementById('per-problem').value.trim()
+          };
+          if (!payload.product || !payload.price || !payload.problem) {
+            this.toast('Mohon lengkapi informasi produk dan masalah konsumen.', 'error');
+            return;
+          }
+          await this.runModule('persona', 'btn-per-generate', payload);
+        });
+
+        // Content Generator Form
+        document.getElementById('form-content').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            brand: this.state.brandName,
+            type: document.getElementById('cnt-type').value,
+            topic: document.getElementById('cnt-topic').value.trim(),
+            tone: document.getElementById('cnt-tone').value,
+            cta: document.getElementById('cnt-cta').value.trim() || 'Hubungi kami sekarang'
+          };
+          if (!payload.topic) {
+            this.toast('Mohon masukkan topik atau promo konten.', 'error');
+            return;
+          }
+          await this.runModule('content', 'btn-cnt-generate', payload);
+        });
+
+        // Campaign Planner Form
+        document.getElementById('form-campaign').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            brand: this.state.brandName,
+            goal: document.getElementById('cmp-goal').value,
+            offer: document.getElementById('cmp-offer').value.trim(),
+            duration: document.getElementById('cmp-duration').value,
+            budget: document.getElementById('cmp-budget').value
+          };
+          if (!payload.offer) {
+            this.toast('Mohon isi produk atau penawaran utama kampanye.', 'error');
+            return;
+          }
+          await this.runModule('campaign', 'btn-cmp-generate', payload);
+        });
+
+        // Advisor Chat Form
+        document.getElementById('form-advisor-chat').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const input = document.getElementById('advisor-input');
+          const msg = input.value.trim();
+          if (!msg) return;
+          input.value = '';
+          await this.handleAdvisorMessage(msg);
+        });
+      },
+
+      /* ==================== VIEW SWITCHING ==================== */
+      showLanding() {
+        document.getElementById('view-landing').classList.remove('hidden');
+        document.getElementById('view-login').classList.add('hidden');
+        document.getElementById('view-app').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      openLogin(targetSection = 'overview') {
+        this.pendingTargetSection = targetSection;
+        if (this.state.brandName) {
+          this.enterDashboard(this.state.brandName, false);
+          if (targetSection && targetSection !== 'overview') {
+            this.navigate(targetSection);
+          }
+          return;
+        }
+        document.getElementById('view-landing').classList.add('hidden');
+        document.getElementById('view-login').classList.remove('hidden');
+        document.getElementById('view-app').classList.add('hidden');
+        setTimeout(() => document.getElementById('brand-input').focus(), 100);
+      },
+
+      fillDemoBrand(name) {
+        const input = document.getElementById('brand-input');
+        input.value = name;
+        input.focus();
+      },
+
+      enterDashboard(brandName, showWelcomeToast = true) {
+        this.state.brandName = brandName;
+        this.saveToStorage();
+
+        // Update seluruh tampilan nama brand di UI
+        document.getElementById('sidebar-brand-name').textContent = brandName;
+        document.getElementById('header-brand-name').textContent = brandName;
+        document.querySelectorAll('.overview-brand-text').forEach(el => {
+          el.textContent = brandName;
+        });
+
+        // Isi default nama produk pada form riset pasar jika masih kosong
+        const mrProduct = document.getElementById('mr-product');
+        if (mrProduct && !mrProduct.value) {
+          mrProduct.value = brandName;
+        }
+
+        document.getElementById('view-landing').classList.add('hidden');
+        document.getElementById('view-login').classList.add('hidden');
+        document.getElementById('view-app').classList.remove('hidden');
+
+        // Inisialisasi pesan sambutan chat jika belum ada
+        if (this.state.chatHistory.length === 0) {
+          this.state.chatHistory.push({
+            sender: 'ai',
+            text: `Halo! Saya **NARASI Advisor**, asisten strategi pemasaran untuk **${brandName}**. Apa tantangan pemasaran atau target penjualan yang ingin kita bahas hari ini?`,
+            time: this.formatTime(new Date())
+          });
+          this.saveToStorage();
+        }
+
+        this.renderChatHistory();
+        this.updateStatsUI();
+
+        const target = this.pendingTargetSection || 'overview';
+        this.pendingTargetSection = null;
+        this.navigate(target);
+
+        if (showWelcomeToast) {
+          this.toast(`Selamat datang di NARASI.AI, ${brandName}!`, 'success');
+        }
+      },
+
+      switchBrand() {
+        this.confirmAction(
+          'Ganti Usaha atau Keluar?',
+          'Anda akan kembali ke halaman input nama usaha. Data arsip yang sudah tersimpan di browser tetap aman.',
+          () => {
+            localStorage.removeItem(STORAGE_KEYS.BRAND_NAME);
+            this.state.brandName = '';
+            document.getElementById('brand-input').value = '';
+            document.getElementById('mr-product').value = '';
+            this.toggleSidebar(false);
+            this.openLogin();
+            this.toast('Silakan masukkan nama usaha baru.', 'info');
+          }
+        );
+      },
+
+      toggleSidebar(open) {
+        const sidebar = document.getElementById('app-sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        if (open) {
+          sidebar.classList.remove('-translate-x-full');
+          backdrop.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          backdrop.classList.add('hidden');
+        }
+      },
+
+      navigate(sectionId) {
+        this.state.activeSection = sectionId;
+
+        // Sembunyikan semua section
+        document.querySelectorAll('.app-section').forEach(sec => {
+          sec.classList.add('hidden');
+        });
+
+        // Tampilkan section tujuan
+        const target = document.getElementById(`section-${sectionId}`);
+        if (target) {
+          target.classList.remove('hidden');
+        }
+
+        // Update active state pada menu sidebar
+        document.querySelectorAll('.nav-item').forEach(btn => {
+          const isActive = btn.getAttribute('data-nav') === sectionId;
+          btn.classList.remove('bg-coral', 'text-white', 'shadow-coral-glow', 'text-slate-300', 'hover:bg-white/6', 'hover:text-white');
+          if (isActive) {
+            btn.classList.add('bg-coral', 'text-white', 'shadow-coral-glow');
+          } else {
+            btn.classList.add('text-slate-300', 'hover:bg-white/6', 'hover:text-white');
+          }
+        });
+
+        // Tutup sidebar di mobile
+        this.toggleSidebar(false);
+
+        // Jika masuk ke Marketing Dashboard, render grafik & list riwayat
+        if (sectionId === 'analytics') {
+          this.updateStatsUI();
+          this.renderSavedHistory();
+          this.renderCharts();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        lucide.createIcons();
+      },
+
+      /* ==================== MODULE EXECUTION & RENDERING ==================== */
+      async runModule(moduleType, btnId, payload) {
+        const btn = document.getElementById(btnId);
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Menyusun Strategi AI...</span>`;
+
+        try {
+          const result = await AIService.request(moduleType, payload);
+
+          // Update metrik aktivitas
+          if (moduleType === 'market-research' || moduleType === 'competitor' || moduleType === 'persona') {
+            this.state.metrics.researchCount += 1;
+          } else if (moduleType === 'content') {
+            this.state.metrics.contentCount += 1;
+          } else if (moduleType === 'campaign') {
+            this.state.metrics.campaignCount += 1;
+          }
+          this.saveToStorage();
+          this.updateStatsUI();
+
+          // Render output sesuai modul
+          if (moduleType === 'market-research') this.renderMarketResearch(result);
+          if (moduleType === 'competitor') this.renderCompetitor(result);
+          if (moduleType === 'persona') this.renderPersona(result);
+          if (moduleType === 'content') this.renderContent(result);
+          if (moduleType === 'campaign') this.renderCampaign(result);
+
+          this.toast('Analisis strategi berhasil dibuat!', 'success');
+        } catch (err) {
+          console.error(err);
+          this.toast('Terjadi kendala saat memproses permintaan.', 'error');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = originalHTML;
+          lucide.createIcons();
+        }
+      },
+
+      buildActionHeader(resultObj, plainText) {
+        const encodedText = encodeURIComponent(plainText);
+        const encodedPayload = encodeURIComponent(JSON.stringify({
+          title: resultObj.title,
+          category: resultObj.category,
+          content: plainText
+        }));
+
+        return `
+          <div class="glass-panel rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-neon/25">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-400/30 font-mono text-[11px]">
+                SIMULASI AI REALISTIS
+              </span>
+              <span class="text-xs text-slate-300 truncate max-w-[220px] sm:max-w-xs">${this.escapeHTML(resultObj.title)}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="App.copyEncodedText('${encodedText}')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/8 hover:bg-white/15 text-white border border-white/12 transition">
+                <i data-lucide="copy" class="w-3.5 h-3.5 text-neon"></i>
+                <span>Salin Hasil</span>
+              </button>
+              <button onclick="App.saveResultItem('${encodedPayload}')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-neon text-obsidian hover:opacity-90 transition">
+                <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i>
+                <span>Simpan Hasil</span>
+              </button>
+            </div>
+          </div>
+        `;
+      },
+
+      renderMarketResearch(data) {
+        document.getElementById('mr-empty').classList.add('hidden');
+        const container = document.getElementById('mr-result');
+        container.classList.remove('hidden');
+
+        const accentMap = {
+          neon: 'text-neon bg-neon/15 border-neon/30',
+          coral: 'text-coral bg-coral/15 border-coral/30',
+          amber: 'text-amber-300 bg-amber-500/15 border-amber-400/30',
+          purple: 'text-purple-300 bg-purple-500/15 border-purple-400/30'
+        };
+
+        const cardsHTML = data.sections.map(sec => `
+          <div class="glass-panel rounded-2xl p-5 space-y-2.5 animate-view">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl border flex items-center justify-center ${accentMap[sec.accent] || accentMap.neon}">
+                <i data-lucide="${sec.icon}" class="w-4 h-4"></i>
+              </div>
+              <h3 class="font-display font-bold text-base text-white">${this.escapeHTML(sec.heading)}</h3>
+            </div>
+            <p class="text-sm text-slate-200 leading-relaxed whitespace-pre-line pl-12">${this.escapeHTML(sec.content)}</p>
+          </div>
+        `).join('');
+
+        container.innerHTML = this.buildActionHeader(data, data.plainText) + cardsHTML;
+      },
+
+      renderCompetitor(data) {
+        document.getElementById('comp-empty').classList.add('hidden');
+        const container = document.getElementById('comp-result');
+        container.classList.remove('hidden');
+
+        container.innerHTML = `
+          ${this.buildActionHeader(data, data.plainText)}
+          <div class="glass-panel rounded-2xl p-5 space-y-2 animate-view">
+            <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
+              <i data-lucide="scan-search" class="w-4 h-4 text-neon"></i>
+              <span>Analisis Posisi Kompetitor</span>
+            </h3>
+            <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.analysis)}</p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4 animate-view">
+            <div class="glass-panel rounded-2xl p-5 border-t-2 border-t-amber-400">
+              <h4 class="font-display font-bold text-sm text-amber-300 uppercase tracking-wider mb-3">Kelebihan Kompetitor</h4>
+              <ul class="space-y-2 text-sm text-slate-200">
+                ${data.strengths.map(s => `<li class="flex items-start gap-2"><span class="text-amber-400 mt-1">•</span><span>${this.escapeHTML(s)}</span></li>`).join('')}
+              </ul>
+            </div>
+            <div class="glass-panel rounded-2xl p-5 border-t-2 border-t-coral">
+              <h4 class="font-display font-bold text-sm text-coral uppercase tracking-wider mb-3">Kekurangan & Celah Kompetitor</h4>
+              <ul class="space-y-2 text-sm text-slate-200">
+                ${data.weaknesses.map(w => `<li class="flex items-start gap-2"><span class="text-coral mt-1">•</span><span>${this.escapeHTML(w)}</span></li>`).join('')}
+              </ul>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-2xl p-5 space-y-2 animate-view">
+            <h4 class="font-display font-bold text-sm text-purple-300 uppercase tracking-wider">Pola Strategi Promosi Kompetitor</h4>
+            <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.promoStrategy)}</p>
+          </div>
+
+          <div class="rounded-2xl p-5 bg-gradient-to-br from-plumLight to-obsidian border border-neon/35 space-y-3 animate-view">
+            <h4 class="font-display font-bold text-base text-neon flex items-center gap-2">
+              <i data-lucide="trophy" class="w-4 h-4"></i>
+              <span>Peluang Diferensiasi & Rekomendasi Unggul</span>
+            </h4>
+            <p class="text-sm text-white font-medium leading-relaxed">${this.escapeHTML(data.differentiation)}</p>
+            <ul class="space-y-2 text-sm text-slate-200 pt-2 border-t border-white/10">
+              ${data.recommendations.map((r, i) => `<li class="flex items-start gap-2.5"><span class="font-mono text-xs px-2 py-0.5 rounded bg-neon/15 text-neon">${i + 1}</span><span>${this.escapeHTML(r)}</span></li>`).join('')}
+            </ul>
+          </div>
+        `;
+      },
+
+      renderPersona(data) {
+        document.getElementById('per-empty').classList.add('hidden');
+        const container = document.getElementById('per-result');
+        container.classList.remove('hidden');
+
+        const initials = data.personaName.split(' ').slice(0, 2).map(n => n[0]).join('');
+
+        container.innerHTML = `
+          ${this.buildActionHeader(data, data.plainText)}
+          <div class="glass-panel rounded-3xl p-6 space-y-6 animate-view">
+            <!-- Profile Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pb-5 border-b border-white/10">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-coral to-purple-600 flex items-center justify-center font-display font-extrabold text-2xl text-white shadow-coral-glow shrink-0">
+                ${this.escapeHTML(initials)}
+              </div>
+              <div>
+                <span class="font-mono text-[11px] uppercase tracking-wider text-neon">PROFIL TARGET KONSUMEN</span>
+                <h3 class="font-display font-bold text-xl text-white mt-0.5">${this.escapeHTML(data.personaName)}</h3>
+                <p class="text-xs text-slate-300 mt-1">${this.escapeHTML(data.ageRange)} • ${this.escapeHTML(data.occupation)}</p>
+              </div>
+            </div>
+
+            <!-- Characteristics & Needs -->
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-2xl bg-void/70 border border-white/8">
+                <h4 class="font-mono text-xs text-coral uppercase mb-2">Karakteristik Konsumen</h4>
+                <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.characteristics)}</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-void/70 border border-white/8">
+                <h4 class="font-mono text-xs text-neon uppercase mb-2">Kebutuhan & Keinginan</h4>
+                <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.needsAndWants)}</p>
+              </div>
+            </div>
+
+            <!-- Shopping Habits & Social Media -->
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-2xl bg-void/70 border border-white/8">
+                <h4 class="font-mono text-xs text-purple-300 uppercase mb-2">Kebiasaan Berbelanja</h4>
+                <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.shoppingHabits)}</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-void/70 border border-white/8">
+                <h4 class="font-mono text-xs text-amber-300 uppercase mb-2.5">Media Sosial yang Sering Digunakan</h4>
+                <div class="space-y-2">
+                  ${data.socialMedia.map(sm => `
+                    <div class="flex items-center justify-between text-xs">
+                      <span class="text-slate-200">${this.escapeHTML(sm.platform)}</span>
+                      <span class="font-mono font-semibold text-neon">${this.escapeHTML(sm.share)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Buying Factors -->
+            <div class="p-4 rounded-2xl bg-plumLight/60 border border-neon/25">
+              <h4 class="font-mono text-xs text-neon uppercase mb-3">Faktor yang Memengaruhi Keputusan Pembelian</h4>
+              <div class="grid sm:grid-cols-2 gap-2.5">
+                ${data.buyingFactors.map(f => `
+                  <div class="flex items-start gap-2 text-xs text-slate-200 bg-obsidian/60 p-2.5 rounded-xl border border-white/5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-neon shrink-0 mt-0.5"></i>
+                    <span>${this.escapeHTML(f)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      renderContent(data) {
+        document.getElementById('cnt-empty').classList.add('hidden');
+        const container = document.getElementById('cnt-result');
+        container.classList.remove('hidden');
+
+        let contentBodyHTML = '';
+
+        if (data.tableData && Array.isArray(data.tableData)) {
+          contentBodyHTML = `
+            <div class="glass-panel rounded-2xl overflow-hidden border border-white/10 animate-view">
+              <div class="px-5 py-4 border-b border-white/10 flex items-center justify-between">
+                <h3 class="font-display font-bold text-base text-white">Jadwal Kalender Konten 7 Hari</h3>
+                <span class="font-mono text-xs text-coral">${this.escapeHTML(data.tone)}</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-void text-slate-300 font-mono uppercase border-b border-white/10">
+                    <tr>
+                      <th class="px-4 py-3">Hari</th>
+                      <th class="px-4 py-3">Pilar</th>
+                      <th class="px-4 py-3">Format</th>
+                      <th class="px-4 py-3">Ide Konten & CTA</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-white/8 text-slate-200">
+                    ${data.tableData.map(row => `
+                      <tr class="hover:bg-white/5 transition">
+                        <td class="px-4 py-3 font-semibold text-neon whitespace-nowrap">${this.escapeHTML(row.day)}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">${this.escapeHTML(row.pillar)}</td>
+                        <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-0.5 rounded bg-coral/15 text-coral font-mono">${this.escapeHTML(row.format)}</span></td>
+                        <td class="px-4 py-3">
+                          <p class="font-medium text-white">${this.escapeHTML(row.idea)}</p>
+                          <p class="text-[11px] text-slate-400 mt-0.5">CTA: ${this.escapeHTML(row.cta)}</p>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+        } else {
+          contentBodyHTML = `
+            <div class="glass-panel rounded-2xl p-6 space-y-4 animate-view">
+              <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <span class="font-mono text-xs text-coral uppercase">${this.escapeHTML(data.contentType)}</span>
+                <span class="font-mono text-xs text-slate-400">Gaya: ${this.escapeHTML(data.tone)}</span>
+              </div>
+              <div class="p-5 rounded-2xl bg-obsidian/85 border border-white/10 text-sm text-slate-100 leading-relaxed whitespace-pre-line font-sans">
+${this.escapeHTML(data.output)}
+              </div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = this.buildActionHeader(data, data.plainText) + contentBodyHTML;
+      },
+
+      renderCampaign(data) {
+        document.getElementById('cmp-empty').classList.add('hidden');
+        const container = document.getElementById('cmp-result');
+        container.classList.remove('hidden');
+
+        container.innerHTML = `
+          ${this.buildActionHeader(data, data.plainText)}
+          <div class="glass-panel rounded-2xl p-6 space-y-5 animate-view">
+            <div class="pb-4 border-b border-white/10">
+              <span class="font-mono text-xs text-neon uppercase">NAMA KAMPANYE</span>
+              <h3 class="font-display font-extrabold text-xl text-white mt-1">${this.escapeHTML(data.campaignName)}</h3>
+              <p class="text-xs text-coral font-medium mt-1">Tujuan: ${this.escapeHTML(data.goal)}</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-2xl bg-void/75 border border-white/8">
+                <h4 class="font-mono text-xs text-purple-300 uppercase mb-2">Target Audiens</h4>
+                <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.targetAudience)}</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-void/75 border border-white/8">
+                <h4 class="font-mono text-xs text-coral uppercase mb-2">Strategi Promosi</h4>
+                <p class="text-sm text-slate-200 leading-relaxed">${this.escapeHTML(data.promoStrategy)}</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-mono text-xs text-neon uppercase mb-2.5">Platform Pemasaran Utama</h4>
+              <div class="flex flex-wrap gap-2">
+                ${data.platforms.map(p => `<span class="px-3 py-1.5 rounded-xl text-xs font-medium bg-neon/10 text-neon border border-neon/25">${this.escapeHTML(p)}</span>`).join('')}
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-mono text-xs text-amber-300 uppercase mb-3">Jadwal Kampanye Bertahap</h4>
+              <div class="space-y-2.5">
+                ${data.schedule.map(s => `
+                  <div class="p-3.5 rounded-xl bg-obsidian/70 border border-white/8">
+                    <p class="font-display font-bold text-sm text-white">${this.escapeHTML(s.phase)}</p>
+                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">${this.escapeHTML(s.detail)}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4 pt-2">
+              <div class="p-4 rounded-2xl bg-plumLight/50 border border-white/8">
+                <h4 class="font-mono text-xs text-coral uppercase mb-2.5">Ide Konten Kampanye</h4>
+                <ul class="space-y-2 text-xs text-slate-200">
+                  ${data.contentIdeas.map(c => `<li class="flex items-start gap-2"><span class="text-coral">•</span><span>${this.escapeHTML(c)}</span></li>`).join('')}
+                </ul>
+              </div>
+              <div class="p-4 rounded-2xl bg-plumLight/50 border border-neon/25">
+                <h4 class="font-mono text-xs text-neon uppercase mb-2.5">Indikator Keberhasilan (KPI)</h4>
+                <ul class="space-y-2 text-xs text-slate-200">
+                  ${data.kpis.map(k => `<li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-neon shrink-0 mt-0.5"></i><span>${this.escapeHTML(k)}</span></li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      /* ==================== AI MARKETING ADVISOR CHAT ==================== */
+      async sendQuickAdvisor(promptText) {
+        await this.handleAdvisorMessage(promptText);
+      },
+
+      async handleAdvisorMessage(text) {
+        const userMsg = {
+          sender: 'user',
+          text,
+          time: this.formatTime(new Date())
+        };
+        this.state.chatHistory.push(userMsg);
+        this.saveToStorage();
+        this.renderChatHistory(true);
+
+        try {
+          const response = await AIService.request('advisor', {
+            brand: this.state.brandName,
+            question: text
+          });
+
+          this.state.chatHistory.push({
+            sender: 'ai',
+            text: response.reply,
+            time: this.formatTime(new Date())
+          });
+          this.saveToStorage();
+          this.renderChatHistory(false);
+        } catch (err) {
+          this.renderChatHistory(false);
+          this.toast('Gagal mendapatkan balasan advisor.', 'error');
+        }
+      },
+
+      renderChatHistory(showTyping = false) {
+        const container = document.getElementById('chat-messages');
+        if (!container) return;
+
+        let html = this.state.chatHistory.map(item => {
+          const formattedText = this.formatMarkdownBasic(this.escapeHTML(item.text));
+          if (item.sender === 'user') {
+            return `
+              <div class="flex justify-end animate-view">
+                <div class="max-w-[82%] sm:max-w-[70%] rounded-2xl rounded-tr-sm px-4 py-3 bg-coral text-white shadow-md">
+                  <p class="text-sm leading-relaxed">${formattedText}</p>
+                  <span class="block text-[10px] text-white/75 text-right mt-1 font-mono">${item.time}</span>
+                </div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="flex items-start gap-3 animate-view">
+                <div class="w-8 h-8 rounded-xl bg-plumLight border border-neon/30 flex items-center justify-center text-neon shrink-0 mt-0.5">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </div>
+                <div class="max-w-[85%] sm:max-w-[75%] rounded-2xl rounded-tl-sm px-4 py-3.5 bg-void/90 border border-white/10 text-slate-200">
+                  <div class="text-sm leading-relaxed whitespace-pre-line">${formattedText}</div>
+                  <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                    <span class="font-mono text-[10px] text-slate-500">${item.time}</span>
+                    <button onclick="App.copyEncodedText('${encodeURIComponent(item.text)}')" class="text-[11px] text-slate-400 hover:text-neon inline-flex items-center gap-1 transition">
+                      <i data-lucide="copy" class="w-3 h-3"></i> Salin
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+        }).join('');
+
+        if (showTyping) {
+          html += `
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-plumLight border border-neon/30 flex items-center justify-center text-neon shrink-0">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </div>
+              <div class="rounded-2xl px-4 py-3.5 bg-void/90 border border-white/10 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-neon typing-dot"></span>
+                <span class="w-2 h-2 rounded-full bg-neon typing-dot"></span>
+                <span class="w-2 h-2 rounded-full bg-neon typing-dot"></span>
+              </div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = html;
+        container.scrollTop = container.scrollHeight;
+        lucide.createIcons();
+      },
+
+      clearChatHistory() {
+        this.confirmAction(
+          'Hapus Riwayat Percakapan?',
+          'Seluruh percakapan dengan AI Marketing Advisor akan dihapus dari sesi ini.',
+          () => {
+            this.state.chatHistory = [{
+              sender: 'ai',
+              text: `Riwayat chat dibersihkan. Silakan ajukan pertanyaan baru seputar strategi pemasaran **${this.state.brandName}**!`,
+              time: this.formatTime(new Date())
+            }];
+            this.saveToStorage();
+            this.renderChatHistory();
+            this.toast('Riwayat chat berhasil dihapus.', 'success');
+          }
+        );
+      },
+
+      /* ==================== SAVE, COPY, DELETE & HISTORY ==================== */
+      saveResultItem(encodedPayload) {
+        try {
+          const parsed = JSON.parse(decodeURIComponent(encodedPayload));
+          const newItem = {
+            id: 'narasi_' + Date.now(),
+            brand: this.state.brandName,
+            title: parsed.title,
+            category: parsed.category,
+            content: parsed.content,
+            savedAt: new Date().toLocaleString('id-ID', {
+              day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            })
+          };
+
+          this.state.savedItems.unshift(newItem);
+          this.saveToStorage();
+          this.updateStatsUI();
+          this.toast('Hasil berhasil disimpan ke Marketing Dashboard!', 'success');
+        } catch (err) {
+          console.error(err);
+          this.toast('Gagal menyimpan hasil.', 'error');
+        }
+      },
+
+      copyEncodedText(encodedText) {
+        const text = decodeURIComponent(encodedText);
+        this.copyToClipboard(text);
+      },
+
+      copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(() => {
+            this.toast('Teks berhasil disalin ke clipboard!', 'success');
+          }).catch(() => {
+            this.fallbackCopy(text);
+          });
+        } else {
+          this.fallbackCopy(text);
+        }
+      },
+
+      fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          this.toast('Teks berhasil disalin ke clipboard!', 'success');
+        } catch (err) {
+          this.toast('Gagal menyalin teks.', 'error');
+        }
+        document.body.removeChild(textarea);
+      },
+
+      filterHistory(category) {
+        this.state.historyFilter = category;
+        document.querySelectorAll('.filter-pill').forEach(btn => {
+          const active = btn.getAttribute('data-filter') === category;
+          btn.className = active
+            ? 'filter-pill px-3 py-1.5 rounded-lg text-xs font-semibold bg-coral text-white transition'
+            : 'filter-pill px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-slate-300 hover:bg-white/10 transition';
+        });
+        this.renderSavedHistory();
+      },
+
+      renderSavedHistory() {
+        const container = document.getElementById('saved-history-list');
+        if (!container) return;
+
+        const filtered = this.state.historyFilter === 'ALL'
+          ? this.state.savedItems
+          : this.state.savedItems.filter(item => item.category === this.state.historyFilter);
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 px-4 rounded-2xl bg-void/60 border border-dashed border-white/10">
+              <i data-lucide="folder-open" class="w-10 h-10 text-slate-500 mx-auto mb-3"></i>
+              <p class="font-display font-bold text-base text-white">Belum Ada Hasil Tersimpan</p>
+              <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto">Hasil analisis pasar, persona konsumen, konten promosi, atau kampanye yang Anda klik "Simpan Hasil" akan muncul di sini.</p>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = filtered.map(item => `
+          <div class="p-4 rounded-2xl bg-void/80 hover:bg-plumLight/40 border border-white/8 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-neon/10 text-neon border border-neon/25">${this.escapeHTML(item.category)}</span>
+                <span class="font-mono text-[11px] text-slate-400">${this.escapeHTML(item.savedAt)}</span>
+                <span class="font-mono text-[11px] text-coral">• ${this.escapeHTML(item.brand)}</span>
+              </div>
+              <h4 class="font-display font-bold text-sm sm:text-base text-white truncate">${this.escapeHTML(item.title)}</h4>
+              <p class="text-xs text-slate-400 line-clamp-1">${this.escapeHTML(item.content.replace(/\n/g, ' '))}</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="App.openDetailModal('${item.id}')" class="px-3 py-2 rounded-xl text-xs font-semibold bg-white/8 hover:bg-white/15 text-white border border-white/10 transition inline-flex items-center gap-1.5">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-neon"></i>
+                <span>Detail</span>
+              </button>
+              <button onclick="App.copyEncodedText('${encodeURIComponent(item.content)}')" class="p-2 rounded-xl text-slate-300 hover:text-neon bg-white/5 hover:bg-white/10 border border-white/10 transition" title="Salin">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+              <button onclick="App.deleteSavedItem('${item.id}')" class="p-2 rounded-xl text-slate-300 hover:text-coral bg-white/5 hover:bg-coral/15 border border-white/10 transition" title="Hapus">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        lucide.createIcons();
+      },
+
+      openDetailModal(id) {
+        const item = this.state.savedItems.find(i => i.id === id);
+        if (!item) return;
+
+        document.getElementById('detail-badge').textContent = item.category;
+        document.getElementById('detail-title').textContent = item.title;
+        document.getElementById('detail-body').textContent = item.content;
+        document.getElementById('detail-date').textContent = `Brand: ${item.brand} • Disimpan: ${item.savedAt}`;
+        document.getElementById('detail-copy-btn').onclick = () => this.copyToClipboard(item.content);
+
+        const modal = document.getElementById('detail-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      },
+
+      closeDetailModal() {
+        const modal = document.getElementById('detail-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      },
+
+      deleteSavedItem(id) {
+        this.confirmAction(
+          'Hapus Hasil Tersimpan?',
+          'Item ini akan dihapus secara permanen dari arsip browser Anda.',
+          () => {
+            this.state.savedItems = this.state.savedItems.filter(item => item.id !== id);
+            this.saveToStorage();
+            this.updateStatsUI();
+            this.renderSavedHistory();
+            this.renderCharts();
+            this.toast('Item berhasil dihapus.', 'success');
+          }
+        );
+      },
+
+      clearAllSavedHistory() {
+        if (this.state.savedItems.length === 0) {
+          this.toast('Tidak ada riwayat tersimpan untuk dihapus.', 'info');
+          return;
+        }
+        this.confirmAction(
+          'Bersihkan Semua Riwayat?',
+          'Seluruh arsip strategi dan konten yang tersimpan akan dihapus. Statistik pembuatan tetap aman.',
+          () => {
+            this.state.savedItems = [];
+            this.saveToStorage();
+            this.updateStatsUI();
+            this.renderSavedHistory();
+            this.renderCharts();
+            this.toast('Seluruh arsip berhasil dibersihkan.', 'success');
+          }
+        );
+      },
+
+      /* ==================== STATS & CHARTS ==================== */
+      updateStatsUI() {
+        const { researchCount, contentCount, campaignCount } = this.state.metrics;
+        const savedCount = this.state.savedItems.length;
+
+        // Header badge
+        document.getElementById('header-saved-count').textContent = savedCount;
+
+        // Overview stats
+        document.getElementById('ov-stat-research').textContent = researchCount;
+        document.getElementById('ov-stat-content').textContent = contentCount;
+        document.getElementById('ov-stat-campaign').textContent = campaignCount;
+        document.getElementById('ov-stat-saved').textContent = savedCount;
+
+        // Marketing Dashboard stats
+        document.getElementById('dash-stat-research').textContent = researchCount;
+        document.getElementById('dash-stat-content').textContent = contentCount;
+        document.getElementById('dash-stat-campaign').textContent = campaignCount;
+        document.getElementById('dash-stat-saved').textContent = savedCount;
+      },
+
+      renderCharts() {
+        if (typeof Chart === 'undefined') return;
+
+        const { researchCount, contentCount, campaignCount } = this.state.metrics;
+        const savedCount = this.state.savedItems.length;
+
+        const barCtx = document.getElementById('chart-activity-bar');
+        const doughnutCtx = document.getElementById('chart-focus-doughnut');
+        if (!barCtx || !doughnutCtx) return;
+
+        if (this.state.charts.bar) this.state.charts.bar.destroy();
+        if (this.state.charts.doughnut) this.state.charts.doughnut.destroy();
+
+        this.state.charts.bar = new Chart(barCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Analisis Pasar', 'Konten Dibuat', 'Kampanye', 'Hasil Disimpan'],
+            datasets: [{
+              label: 'Jumlah Output',
+              data: [researchCount, contentCount, campaignCount, savedCount],
+              backgroundColor: [
+                'rgba(255, 94, 91, 0.8)',
+                'rgba(0, 245, 160, 0.8)',
+                'rgba(168, 85, 247, 0.8)',
+                'rgba(251, 191, 36, 0.8)'
+              ],
+              borderColor: ['#FF5E5B', '#00F5A0', '#A855F7', '#FBBF24'],
+              borderWidth: 1.5,
+              borderRadius: 10
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { color: '#94A3B8', stepSize: 1 },
+                grid: { color: 'rgba(255,255,255,0.06)' }
+              },
+              x: {
+                ticks: { color: '#CBD5E1', font: { size: 11 } },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+
+        const hasData = (researchCount + contentCount + campaignCount) > 0;
+        this.state.charts.doughnut = new Chart(doughnutCtx, {
+          type: 'doughnut',
+          data: {
+            labels: hasData ? ['Riset & Persona', 'Konten Promosi', 'Kampanye'] : ['Belum Ada Aktivitas'],
+            datasets: [{
+              data: hasData ? [researchCount, contentCount, campaignCount] : [1],
+              backgroundColor: hasData
+                ? ['#FF5E5B', '#00F5A0', '#A855F7']
+                : ['rgba(255,255,255,0.08)'],
+              borderColor: '#130E24',
+              borderWidth: 3
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '68%',
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#CBD5E1', padding: 16, font: { size: 11 } }
+              }
+            }
+          }
+        });
+      },
+
+      /* ==================== UI HELPERS (TOAST & CONFIRM) ==================== */
+      toast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const id = 'toast_' + Date.now();
+
+        const styles = {
+          success: 'border-neon/40 bg-void/95 text-white',
+          error: 'border-coral/50 bg-void/95 text-white',
+          info: 'border-white/15 bg-void/95 text-slate-200'
+        };
+
+        const icons = {
+          success: '<i data-lucide="check-circle-2" class="w-4 h-4 text-neon shrink-0"></i>',
+          error: '<i data-lucide="alert-circle" class="w-4 h-4 text-coral shrink-0"></i>',
+          info: '<i data-lucide="info" class="w-4 h-4 text-purple-300 shrink-0"></i>'
+        };
+
+        const el = document.createElement('div');
+        el.id = id;
+        el.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl border shadow-2xl backdrop-blur-xl text-xs font-medium animate-view ${styles[type] || styles.info}`;
+        el.innerHTML = `${icons[type] || icons.info}<span>${this.escapeHTML(message)}</span>`;
+
+        container.appendChild(el);
+        lucide.createIcons();
+
+        setTimeout(() => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(8px)';
+          el.style.transition = 'all 0.25s ease';
+          setTimeout(() => el.remove(), 260);
+        }, 3200);
+      },
+
+      confirmAction(title, message, onConfirm) {
+        const modal = document.getElementById('confirm-modal');
+        document.getElementById('confirm-title').textContent = title;
+        document.getElementById('confirm-message').textContent = message;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        const cancelBtn = document.getElementById('confirm-cancel-btn');
+        const okBtn = document.getElementById('confirm-ok-btn');
+
+        const cleanup = () => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        };
+
+        cancelBtn.onclick = cleanup;
+        okBtn.onclick = () => {
+          cleanup();
+          onConfirm();
+        };
+      },
+
+      escapeHTML(str) {
+        if (typeof str !== 'string') return '';
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      },
+
+      formatMarkdownBasic(escapedStr) {
+        return escapedStr
+          .replace(/\*\*(.+?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+          .replace(/\*(.+?)\*/g, '<em class="text-slate-300">$1</em>');
+      },
+
+      formatTime(date) {
+        return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      }
+    };
+
+    // Jalankan aplikasi setelah DOM siap
+    window.addEventListener('DOMContentLoaded', () => {
+      App.init();
+    });
+  </script>
+</body>
+</html>
